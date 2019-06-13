@@ -33,71 +33,82 @@
 </template>
 
 <script>
+// 引入密码正则验证
+import { passwordReg } from "@/utils/validator.js";
+// import { all } from 'q';
+
 export default {
-    data(){
-         var validatePass = (rule, value, callback) => {
-              if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.loginForm.password) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {2
-          callback();//成功
-        }
-
-         }
-        return {
-            //表单数据
-            loginForm:{
-                account:'',
-                password:'',
-                checkPass:'',
-
-            },
-            //验证规则
-            rules:{
-                account:[
-                    {required:true,message:'请输入账号',trigger:'blur'},
-                    {min:3,max:6,message:"账号长度3-6位",trigger:'blur'}
-
-                ],
-                password:[
-                     {required:true,message:'请输入密码',trigger:'blur'},
-                    {min:2,max:9,message:"密码长度2-9位",trigger:'blur'}
-
-
-                ],
-                checkPass:[
-                     {required:true,validator:validatePass,},
-                ],
-
-            }
-
-        }
-    },
-    methods:{
-         submitForm() {
-        this.$refs.loginForm.validate(valid => {
-          if (valid) {
-           //提交数据给后端
-          let params={
-           account: this.loginForm.account,
-           password: this.loginForm.password
-          }
-          alert('登录成功！')
-          //路由跳转
-          this .$router.push('/home');
-          } else {
-            console.log('验证不通过');
-            return 
-          }
-        })
-      },
-      //重置
-      resetForm(formName) {
-          //重置表单
-        this.$refs[formName].resetFields();
+  data() {
+    var validatePass = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.loginForm.password) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback(); //成功
       }
+    };
+    // 密码自定义验证
+    var checkPassword = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("不能为空"));
+      } else if (value.length < 3 || value.length > 6) {
+        callback(new Error("密码在 3~6 位之间"));
+      } else if (!passwordReg(value)) {
+        callback(new Error("密码必须是数字和字母组合"));
+      } else {
+        if (this.loginForm.checkPass !== "") {
+          this.$refs.loginForm.validateField("checkPass");
+        }
+        callback();
+      }
+    };
+    return {
+      //表单数据
+      loginForm: {
+        account: "",
+        password: "",
+        checkPass: ""
+      },
+      //验证规则
+      rules: {
+        account: [
+          { required: true, message: "请输入账号", trigger: "blur" },
+          { min: 3, max: 6, message: "账号长度3-6位", trigger: "blur" }
+        ],
+        password: [
+          { required: true, validator: checkPassword, trigger: "blur" }
+        ],
+        checkPass: [
+          { required: true, validator: validatePass, trigger: "blur" }
+        ]
+      }
+    };
+  },
+  methods: {
+    submitForm() {
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          //提交数据给后端
+          let params = {
+            account: this.loginForm.account,
+            password: this.loginForm.password
+          };
+          alert("登录成功！");
+          //路由跳转
+          this.$router.push("/home");
+        } else {
+          console.log("验证不通过");
+          return;
+        }
+      });
+    },
+    //重置
+    resetForm(formName) {
+      //重置表单
+      this.$refs[formName].resetFields();
     }
+  }
 };
 </script>
 <style lang="less">

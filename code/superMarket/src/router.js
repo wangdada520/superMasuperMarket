@@ -28,9 +28,14 @@ export default new Router({
         },
       
         // 添加账号管理
+        // {
+        //   path: "/home/accountadd", // 路径
+        //   component: () => import("./views/AccountAdd/AccountAdd.vue"), //组件
+        // },
+        // 李杰-添加账户
         {
           path: "/home/accountadd", // 路径
-          component: () => import("./views/AccountAdd/AccountAdd.vue"), //组件
+          component: () => import("./views/lj-AccountAdd/AccountAdd.vue"), //组件
         },
         // 账号管理
         {
