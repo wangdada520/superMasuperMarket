@@ -14,15 +14,19 @@
         label-width="100px"
         class="demo-ruleForm"
       >
+      <!-- 账号 -->
         <el-form-item label="账号" prop="account">
           <el-input type="text" v-model="loginForm.account" autocomplete="off"></el-input>
         </el-form-item>
+        <!-- 密码 -->
         <el-form-item label="密码" prop="password">
           <el-input type="password" v-model="loginForm.password" autocomplete="off"></el-input>
         </el-form-item>
+        <!-- 确认密码 -->
         <el-form-item label="确认密码" prop="checkPass">
           <el-input type="password" v-model="loginForm.checkPass" autocomplete="off"></el-input>
         </el-form-item>
+        <!-- 登录按钮 -->
         <el-form-item>
           <el-button type="primary" @click="submitForm('loginForm')">登录</el-button>
           <el-button @click="resetForm('loginForm')">重置</el-button>
@@ -35,7 +39,6 @@
 <script>
 // 引入密码正则验证
 import { passwordReg } from "@/utils/validator.js";
-// import { all } from 'q';
 
 export default {
   data() {
