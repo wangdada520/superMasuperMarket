@@ -33,10 +33,10 @@ export default new Router({
           component: () => import("./views/AccountAdd/AccountAdd.vue"), //组件
         },
         // 李杰-添加账户
-        // {
-        //   path: "/home/accountadd", // 路径
-        //   component: () => import("./views/lj-AccountAdd/AccountAdd.vue"), //组件
-        // },
+        {
+          path: "/home/ljaccountadd", // 路径
+          component: () => import("./views/lj-AccountAdd/AccountAdd.vue"), //组件
+        },
         // 账号管理
         {
           path: "/home/AccountManage", // 路径
