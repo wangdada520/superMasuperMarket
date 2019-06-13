@@ -55,7 +55,7 @@ export default {
          var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请再次输入密码"));
-      } else if (value !== this.loginForm.password) {
+      } else if (value !== this.accountForm.password) {
         callback(new Error("两次输入密码不一致!"));
       } else {
         callback(); //成功
@@ -70,8 +70,8 @@ export default {
       } else if (!passwordReg(value)) {
         callback(new Error("密码必须是数字和字母组合"));
       } else {
-        if (this.loginForm.checkPass !== "") {
-          this.$refs.loginForm.validateField("checkPass");
+        if (this.accountForm.checkPass !== "") {
+          this.$refs.accountForm.validateField("checkPass");
         }
         callback();
       }
@@ -91,12 +91,11 @@ export default {
           ],
       // 密码
       password:[
-            { required: true, message: "请输入账号", trigger: "blur" },
-          { min: 3, max: 6, message: "账号长度3-6位", trigger: "blur" }
+            { required: true, validator: checkPassword, trigger: "blur" }
       ],
       // 确认密码
       checkPass:[
-          {}
+          { required: true, validator: validatePass, trigger: "blur" }
       ],
       accountGroup:[
           {}
