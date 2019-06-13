@@ -10,7 +10,7 @@
       router
     >
      <!-- 导航 -->
-      <el-submenu :index="index+1" v-for="(menu,index) in menus" :key="index">
+      <el-submenu :index="(index+1)+''" v-for="(menu,index) in menus" :key="index">
         <template slot="title">
           <i :class="menu.iconclass"></i>
           <span>{{ menu.title }}</span>
