@@ -1,15 +1,18 @@
 <template>
     <div class="account-add">
-        <h1>哈哈</h1>
+        <el-card class="box-card">
+            <div slot="header" class="clearfix">
+                <span>添加管理员账户</span>
+            </div>
+        
+        </el-card>
     </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style>
-    @import './AccountAdd.less';
+@import "./AccountAdd.less";
 </style>
