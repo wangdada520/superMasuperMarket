@@ -10,7 +10,9 @@
         <el-row>
           <el-col :span="8">
             <!-- 头像 -->
-            <div class="imghead"></div>
+            <div class="imghead">
+              <img src="./timg.jpg">
+            </div>
           </el-col>
           <el-col :span="16">
             <!-- 登录名 -->

@@ -1,6 +1,6 @@
 <template>
     <div class="bottom">
-       尾部
+      &copy; Copyright 2018 华联超市管理系统
     </div>
 </template>
 
