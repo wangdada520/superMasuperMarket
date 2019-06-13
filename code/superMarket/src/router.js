@@ -26,21 +26,7 @@ export default new Router({
           path: "/home/systeminfo", // 路径
           component: () => import("./views/SystemInfo/SystemInfo.vue"), //组件
         },
-        // 系统配置组件
-        {
-          path: "/home/SystemLayout", // 路径
-          component: () => import("./views/SystemLayout/SystemLayout.vue"), //组件
-        },
-        // 权限管理组件
-        {
-          path: "/home/Authority", // 路径
-          component: () => import("./views/Authority/Authority.vue"), //组件
-        },
-        // 添加管理组件
-        {
-          path: "/home/GroupAdded", // 路径
-          component: () => import("./views/GroupAdded/GroupAdded.vue"), //组件
-        },
+      
         // 添加账号管理
         {
           path: "/home/accountadd", // 路径
@@ -101,18 +87,7 @@ export default new Router({
           path: "/home/AddInventory", // 路径
           component: () => import("./views/AddInventory/AddInventory.vue"), //组件
         },
-        //分类管理
-        {
-          path: "/home/sortManagement", // 路径
-          component: () => import("./views/sortManagement/sortManagement.vue"), //组件
-        },
-        
-        //分类管理
-        {
-          path: "/home/Classification", // 路径
-          component: () => import("./views/Classification/Classification.vue"), //组件
-        },
-        
+       
       ]
     },
 

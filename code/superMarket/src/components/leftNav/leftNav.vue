@@ -29,15 +29,7 @@ export default {
   data() {
     return {
       menus: [
-        // 分类管理
-        {
-          iconclass: "el-icon-folder-opened",
-          title: "分类管理",
-          childer: [
-            { path: "/home/sortManagement", subtitle: "分类管理" },
-            { path: "/home/Classification", subtitle: "添加分类" }
-            ]
-        },
+     
         // 商品管理
         {
           iconclass: "el-icon-s-goods",
@@ -100,9 +92,7 @@ export default {
           title: "系统管理",
           childer: [
             { path: "/home/SystemInfo", subtitle: "系统信息" },
-            { path: "/home/SystemLayout", subtitle: "系统配置" },
-            { path: "/home/Authority", subtitle: "权限管理" },
-            { path: "/home/Groupadded", subtitle: "添加管理组" },
+          
             ]
         },
         
