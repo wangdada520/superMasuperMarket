@@ -1,0 +1,52 @@
+.home{
+    height: 100%;
+    // 最外层的container
+    .el-container{
+        height: 100%;
+        // 左侧
+        .el-aside {
+        background-color: rgb(48,65 ,86);
+        color: #333;
+        text-align: center;
+      }
+    }
+    //    右侧
+      .el-container{
+        //   头 尾
+        .el-header {
+           border-bottom: 1px solid #2d3a4b;
+            line-height: 60px;
+            // background: #fff;
+          }
+        //    中
+           .el-main {
+        // background-color: #E9EEF3;
+        color: #333;
+        text-align: center;
+           }
+
+          //  尾部
+        .el-footer{
+          border-top: 1px solid #2d3a4b;
+          line-height: 60px;
+          // background: #fff;
+
+
+        }
+      
+    }
+      
+     
+      body > .el-container {
+        margin-bottom: 40px;
+      }
+      
+      .el-container:nth-child(5) .el-aside,
+      .el-container:nth-child(6) .el-aside {
+        line-height: 260px;
+      }
+      
+      .el-container:nth-child(7) .el-aside {
+        line-height: 320px;
+      }
+}
