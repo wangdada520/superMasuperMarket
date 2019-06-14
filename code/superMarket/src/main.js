@@ -1,12 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-// 引入axios
-import ljreq from './utils/ljRequest'
-
-//将axios挂在原型上
-Vue.prototype.ljreq = ljreq ;
-
 
 //引入element-ui
 import ElementUI from 'element-ui';//js组件

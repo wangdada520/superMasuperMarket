@@ -47,6 +47,8 @@
 import { passwordReg } from "@/utils/validator.js";
 import qs from 'qs';
 
+import { addAccount } from '@/api/account.js';
+
 export default {
     data() {
         var validatePass = (rule, value, callback) => {
@@ -110,16 +112,16 @@ export default {
             password: this.accountForm.password,
             region: this.accountForm.region
           };
-          alert("添加成功！");
-        this.ljreq.post('/url',params)
-            .then(res => {
-                console.log(res);
-            })
-            .catch(err => {
-                console.log(err);
-            })
+        //   alert("添加成功！");
+            addAccount('/url',params)
+                .then(res => {
+                    console.log('成功：'+res);
+                })
+                .catch(err => {
+                    console.log('失败：'+err)
+                })
           //路由跳转
-          this.$router.push("/home/ljAccountManage");
+        //   this.$router.push("/home/ljAccountManage");
         } else {
           console.log("验证不通过");
           return;
