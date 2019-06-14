@@ -29,16 +29,16 @@
             <el-input type="password" v-model="accountForm.checkPass" autocomplete="off"></el-input>
           </el-form-item>
           <!-- 选择用户组 -->
-          <el-form-item label="选择用户组" prop="accountGroup">
-            <el-select v-model="accountForm.accountGroup" placeholder="选择用户组">
+          <el-form-item label="选择用户组" prop="userGroup">
+            <el-select v-model="accountForm.userGroup" placeholder="选择用户组">
               <el-option label="高级用户" value="高级用户"></el-option>
               <el-option label="普通用户" value="高级用户"></el-option>
             </el-select>
           </el-form-item>
           <!--登录按钮  -->
           <el-form-item>
-            <el-button type="primary" @click="submitForm('loginForm')">添加</el-button>
-            <el-button @click="resetForm('loginForm')">重置</el-button>
+            <el-button type="primary" @click="submitForm('accountForm')">添加</el-button>
+            <el-button @click="resetForm('accountForm')">重置</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -52,7 +52,7 @@ import { passwordReg } from "@/utils/validator.js";
 
 export default {
   data() {
-         var validatePass = (rule, value, callback) => {
+    var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请再次输入密码"));
       } else if (value !== this.accountForm.password) {
@@ -61,9 +61,10 @@ export default {
         callback(); //成功
       }
     };
-       // 密码自定义验证
+    // 密码自定义验证
     var checkPassword = (rule, value, callback) => {
-      if (value === "") {//非空
+      if (value === "") {
+        //非空
         callback(new Error("不能为空"));
       } else if (value.length < 3 || value.length > 6) {
         callback(new Error("密码在 3~6 位之间"));
@@ -77,32 +78,57 @@ export default {
       }
     };
     return {
-        //表单数据
+      //表单数据
       accountForm: {
         account: "",
         password: "",
-        checkPass: ""
+        checkPass: "",
+        userGroup:''
       },
       //验证规则
-        rules: {
-      account: [
-           { required: true, message: "请输入账号", trigger: "blur" },
+      rules: {
+        account: [
+          { required: true, message: "请输入账号", trigger: "blur" },
           { min: 3, max: 6, message: "账号长度3-6位", trigger: "blur" }
-          ],
-      // 密码
-      password:[
-            { required: true, validator: checkPassword, trigger: "blur" }
-      ],
-      // 确认密码
-      checkPass:[
+        ],
+        // 密码
+        password: [
+          { required: true, validator: checkPassword, trigger: "blur" }
+        ],
+        // 确认密码
+        checkPass: [
           { required: true, validator: validatePass, trigger: "blur" }
-      ],
-      accountGroup:[
-          {}
-      ]
-        }
-
+        ],
+        userGroup: [
+          { required: true, message: '请选择用户组', trigger: "change" }
+        ]
+      }
     };
+  },
+    methods: {
+    submitForm() {
+      this.$refs.accountForm.validate(valid => {
+        if (valid) {
+          //提交数据给后端
+          let params = {
+            account: this.accountForm.account,
+            password: this.accountForm.password,
+            userGroup: this.accountForm.userGroup,
+          };
+          alert("添加成功！");
+            //路由跳转
+          this.$router.push("/home/AccountManage");
+        } else {
+          console.log("验证不通过");
+          return;
+        }
+      });
+    },
+    //重置
+    resetForm(formName) {
+      //重置表单
+      this.$refs[formName].resetFields();
+    }
   }
 };
 </script>
