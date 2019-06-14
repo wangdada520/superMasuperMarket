@@ -34,13 +34,18 @@ export default new Router({
         },
         // 李杰-添加账户
         {
-          path: "/home/ljaccountadd", // 路径
+          path: "/home/ljAccountadd", // 路径
           component: () => import("./views/lj-AccountAdd/AccountAdd.vue"), //组件
         },
         // 账号管理
         {
           path: "/home/AccountManage", // 路径
           component: () => import("./views/AccountManage/AccountManage.vue"), //组件
+        },
+        // 李杰-账号管理
+        {
+          path: "/home/ljAccountManage", // 路径
+          component: () => import("./views/lj-AccountManage/AccountManage.vue"), //组件
         },
         //密码修改
         {
