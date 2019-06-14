@@ -111,6 +111,13 @@ export default {
             region: this.accountForm.region
           };
           alert("添加成功！");
+        this.ljreq.post('/url',params)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.log(err);
+            })
           //路由跳转
           this.$router.push("/home/ljAccountManage");
         } else {

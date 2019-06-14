@@ -57,6 +57,11 @@ export default new Router({
           path: "/home/passwordmodify", // 路径
           component: () => import("./views/passwordModify/passwordModify.vue"), //组件
         },
+        // 李杰-密码修改
+        {
+          path: "/home/ljpasswordmodify", // 路径
+          component: () => import("./views/lj-passwordModify/passwordModify.vue"), //组件
+        },
         // 商品管理
         {
           path: "/home/goodsmanage", // 路径

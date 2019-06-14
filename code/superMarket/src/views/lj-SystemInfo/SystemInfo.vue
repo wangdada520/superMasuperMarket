@@ -59,10 +59,6 @@
                                         prop="inventory"
                                         label="库存">
                                     </el-table-column>
-                                    <el-table-column
-                                        prop="handle"
-                                        label="操作">
-                                    </el-table-column>
                                 </el-table>
                             </div>
                         </el-card>
@@ -94,8 +90,7 @@ export default {
             productData:[
                 {
                     productName:'奥尔良鸡腿',
-                    inventory:5,
-                    handle:'入库'
+                    inventory:5
                 }
             ]
         }
