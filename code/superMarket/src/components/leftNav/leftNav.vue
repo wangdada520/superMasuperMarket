@@ -3,7 +3,7 @@
     <h3>
       <i class="el-icon-menu"></i> 华联超市管理系统</h3>
     <el-menu
-      default-active="$route.path"
+      :default-active="$route.path"
       class="el-menu-vertical-demo"
       background-color="rgb(48, 65, 86)"
       text-color="#fff"
@@ -31,7 +31,6 @@ export default {
   data() {
     return {
       menus: [
-     
         // 商品管理
         {
           iconclass: "el-icon-s-goods",

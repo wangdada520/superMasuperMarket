@@ -49,6 +49,7 @@
 <script>
 // 引入密码正则验证
 import { passwordReg } from "@/utils/validator.js";
+import qs from 'qs';
 
 export default {
   data() {
@@ -115,7 +116,19 @@ export default {
             password: this.accountForm.password,
             userGroup: this.accountForm.userGroup,
           };
-          alert("添加成功！");
+          
+          //发送ajax请求，把数据发送给后端
+          this.ljreq.get('/uel',{
+            params
+          })
+          .then(Response=>{
+            console.log(Response.data);
+            
+          })
+          .catch(err=>{
+            console.log(err);
+            
+          })
             //路由跳转
           this.$router.push("/home/AccountManage");
         } else {

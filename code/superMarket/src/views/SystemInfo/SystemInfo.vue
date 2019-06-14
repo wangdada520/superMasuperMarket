@@ -17,7 +17,7 @@
           <el-col :span="12" style="margin-top: 20px">
             <el-card class="box-card">
               <div slot="header" class="clearfix">
-                <span>销售排行</span>
+                <h4>销售排行</h4>
               </div>
               <!-- 商品的名称 -->
               <div class="text item">
@@ -33,7 +33,7 @@
           <el-col :span="12" style="margin-top: 20px">
             <el-card class="box-card">
               <div slot="header" class="clearfix">
-                <span>缺货的商品</span>
+                <h4>缺货的商品</h4>
               </div>
               <div class="text item">
                   <el-table :data="systeminfonData" stripe style="width: 100%">
@@ -71,6 +71,7 @@ export default {
          
         }, 
         ],
+        // 缺货的商品
         systeminfonData:[
             {
                 systeminfon:'我的优乐美',
