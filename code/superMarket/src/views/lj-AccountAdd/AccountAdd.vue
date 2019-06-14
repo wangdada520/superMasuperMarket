@@ -45,6 +45,7 @@
 <script>
 // 引入密码正则验证
 import { passwordReg } from "@/utils/validator.js";
+import qs from 'qs';
 
 export default {
     data() {

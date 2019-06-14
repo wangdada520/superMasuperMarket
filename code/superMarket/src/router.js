@@ -26,6 +26,11 @@ export default new Router({
           path: "/home/systeminfo", // 路径
           component: () => import("./views/SystemInfo/SystemInfo.vue"), //组件
         },
+        // 李杰-系统信息组件
+        {
+          path: "/home/ljsysteminfo", // 路径
+          component: () => import("./views/lj-SystemInfo/SystemInfo.vue"), //组件
+        },
       
         // 添加账号管理
         {
