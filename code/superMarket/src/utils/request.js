@@ -3,6 +3,9 @@ import axios from "axios";
 // 引入qs
 import Qs from 'qs';
 
+// 统一设置响应头
+axios.defaults.baseURL ='http://127.0.0.1:999';
+
 // 导出请求对象
 export default {
     get(url, params={}){

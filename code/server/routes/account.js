@@ -4,7 +4,9 @@ var router = express.Router();
 const connection = require('./js/conn')
 
 /* GET home page. */
-router.get('/',(req, res)=> {
+router.post('/ljAccountadd',(req, res)=> {
+	//设置跨域
+	res.setHeader('Access-Control-Allow-Origin','*');
   res.send('测试账号路由');
 });
 

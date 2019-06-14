@@ -113,7 +113,7 @@ export default {
             region: this.accountForm.region
           };
         //   alert("添加成功！");
-            addAccount('/url',params)
+            addAccount('/account/ljAccountadd',params)
                 .then(res => {
                     console.log('成功：'+res);
                 })
