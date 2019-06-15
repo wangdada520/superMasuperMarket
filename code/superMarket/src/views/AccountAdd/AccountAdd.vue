@@ -50,7 +50,8 @@
 // 引入密码正则验证
 import { passwordReg } from "@/utils/validator.js";
 import qs from 'qs';
-
+// 引入请求方法
+import {addAccount} from '@/api/account.js'
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -118,19 +119,31 @@ export default {
           };
           
           //发送ajax请求，把数据发送给后端
-          this.ljreq.get('/uel',{
-            params
-          })
-          .then(Response=>{
-            console.log(Response.data);
+          this.request.post('/account/accountadd',params)
+          .then(res=>{
+            // 获取后台发送的数据
+            let {code,reason}=res;
+            // 判断
+            if(code===0){
+              // 弹出成功的提示
+              this.$message({
+                message:reason,
+                type:'success'
+              });
+               //路由跳转
+          this.$router.push("/home/AccountManage");
+            }else{
+              // 弹出失败的提示
+              this.$message.error('添加用户失败！')
+            }
+            console.log(res);
             
           })
           .catch(err=>{
-            console.log(err);
+            // console.log(err);
             
           })
-            //路由跳转
-          this.$router.push("/home/AccountManage");
+          
         } else {
           console.log("验证不通过");
           return;

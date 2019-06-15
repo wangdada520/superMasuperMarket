@@ -63,4 +63,27 @@ router.get('/delaccount',(req,res) => {
 
 
 
+// wdd添加账户路由
+router.post('/accountadd',(req,res)=>{
+	// 接收数据
+	let {account,password,region} = req.body;
+	// 准备sql
+	const sqlStr = `insert into account(account,password,user_group) values('${account}','${password}','${userGroup}')`;
+	// 执行sql
+	connection.query(sqlStr,(err,data) => {
+		if (err) throw err;
+		//判断受影响行数
+		if(data.affectedRows > 0){
+			// 如果受影响行数大于0  代表成功
+			res.send({code:0,reason:"添加账户成功"});//0代表成功
+		}else{
+			// 如果受影响行等于0  代表失败
+			res.send({code:1,reason:"添加账户失败"});//1代表失败
+		}
+	})
+})
+
+// 请求所有账号列表数据
+ 
 module.exports = router;
+

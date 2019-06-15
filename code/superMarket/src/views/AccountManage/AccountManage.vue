@@ -17,7 +17,7 @@
 
           <!-- 创建账号日期 -->
           <el-table-column label="日期">
-            <template slot-scope="scope">{{ scope.row.Ctime }}</template>
+            <template slot-scope="scope">{{ scope.row.create_date | filterDate }}</template>
           </el-table-column>
 
           <!-- 操作 -->
@@ -46,7 +46,7 @@
         <!-- 删除和全选 -->
         <div style="margin-top: 20px">
           <el-button type="success">批量删除</el-button>
-          <el-button type="danger">取消选择</el-button>
+          <el-button type="danger" @click="toggleSelection()" >取消选择</el-button>
         </div>
       </div>
     </el-card>
@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -105,14 +106,63 @@ export default {
     };
   },
   methods: {
+       //   请求所有账户数据
+    getAccountList(){
+        //   发送ajax  请求所有数据
+        this.request.get('/account/accountlist')
+            .then(res => {
+                this.tableData = res;
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    },
+     
     //    修改
-    handleEdit(index, row) {
-      console.log(index, row);
+    handleEdit(id) {
+      let params={id}
+
     },
-    //   删除
-    handleDelete(index, row) {
-      console.log(index, row);
+    
+  // 删除
+    handleDelete(id) {
+        // 接受参数
+        let params = { id };
+        // console.log(params)
+        //   发送ajax请求
+        this.request.get('/account/delaccount',params)
+            .then(res => {
+                // 接受后台数据
+                let {code,reason} = res;
+                // 判断
+                if(code === 0){
+                    // 弹出成功提示
+                    this.$message({
+                        message: reason,
+                        type: 'success'
+                    });
+                    // 刷新列表
+                    this.getAccountList();
+                }else if(code === 1){
+                    // 弹出失败提示
+                    this.$message.error('错了哦，这是一条错误消息');
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
     },
+    // 取消选择
+    toggleSelection(rows) {
+      if (rows) {
+        rows.forEach(row => {
+          this.$refs.multipleTable.toggleRowSelection(row);
+        });
+      } else {
+        this.$refs.multipleTable.clearSelection();
+      }
+    },
+   
     // 分页
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
@@ -121,6 +171,17 @@ export default {
         console.log(`当前页: ${val}`);
       }
     },
+    // 钩子函数-vue实例对象创建完成，dom还没有生成
+    created() {
+      // 发送axios请求  请求所有的账号和数据
+      this.getAccountList();
+    },
+    filters:{
+      filterDate(time){
+        return moment(time).format('YYYY-MM-DD hh:mm:ss');
+
+      }
+    }
 };
 </script>
 
