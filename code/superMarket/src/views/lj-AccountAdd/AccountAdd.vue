@@ -28,8 +28,8 @@
                 <!-- 选择用户组 -->
                 <el-form-item label="选择用户组" prop="region">
                     <el-select v-model="accountForm.region" placeholder="请选择用户组">
-                    <el-option label="管理员" value="guanliyuan"></el-option>
-                    <el-option label="员工" value="yuangong"></el-option>
+                    <el-option label="管理员" value="管理员"></el-option>
+                    <el-option label="员工" value="员工"></el-option>
                     </el-select>
                 </el-form-item>
                 <!-- 登录按钮 -->
@@ -112,16 +112,28 @@ export default {
             password: this.accountForm.password,
             region: this.accountForm.region
           };
-        //   alert("添加成功！");
-            addAccount('/account/ljAccountadd',params)
-                .then(res => {
-                    console.log('成功：'+res);
-                })
-                .catch(err => {
-                    console.log('失败：'+err)
-                })
-          //路由跳转
-        //   this.$router.push("/home/ljAccountManage");
+        this.request.post('/account/ljAccountadd',params)
+            .then(res => {
+                // 获取后台发送的数据
+                let {code,reason} = res;
+                // 判断  0 成功 ； 1失败
+                if(code === 0){
+                    // 弹出成功提示
+                    this.$message({
+                        message: reason,
+                        type: 'success'
+                    });
+                    //路由跳转
+                    this.$router.push("/home/ljAccountManage");
+                }else if(code === 1){
+                    // 弹出失败提示
+                    this.$message.error('错了哦，这是一条错误消息');
+                }
+            })
+            .catch(err => {
+                // console.log(err)
+            })
+          
         } else {
           console.log("验证不通过");
           return;

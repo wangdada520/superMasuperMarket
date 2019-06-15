@@ -16,19 +16,17 @@
                 </el-table-column>
                 <!-- 用户名称 -->
                 <el-table-column
+                    prop="account"
                     label="用户名称">
-                <template slot-scope="scope">{{ scope.row.name }}</template>
                 </el-table-column>
                 <!-- 用户组 -->
                 <el-table-column
-                    prop="userGroup"
+                    prop="user_group"
                     label="用户组">
                 </el-table-column>
                 <!-- 创建日期 -->
-                <el-table-column
-                    prop="createDate"
-                    label="日期"
-                    show-overflow-tooltip>
+                <el-table-column label="日期">
+                    <template slot-scope="scope">{{ scope.row.create_date | filterDate}}</template>
                 </el-table-column>
                 <!-- 操作 -->
                 <el-table-column label="管理">
@@ -66,34 +64,19 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   data() {
     return {
       // 表格数据
-      tableData: [
-        {
-          name: "王大大",
-          userGroup: "管理员",
-          createDate: "2019-01-10"
-        },
-        {
-          name: "杰哥哥",
-          userGroup: "管理员",
-          createDate: "2019-01-10"
-        },
-        {
-          name: "黄三岁",
-          userGroup: "员工",
-          createDate: "2019-02-10"
-        }
-      ],
+      tableData: [],
       //  当前页
       currentPage4:1,
     // 总页数
       total:100
     };
   },
-
   methods: {
     handleEdit() {},
     handleDelete() {},
@@ -109,6 +92,22 @@ export default {
     },
     handleSizeChange(){},
     handleCurrentChange(){}
+  },
+//   钩子函数 
+  created(){
+    //   发送ajax  请求所有数据
+    this.request.get('/account/accountlist')
+        .then(res => {
+            this.tableData = res;
+        })
+        .catch(err => {
+            console.log(err);
+        })
+  },
+  filters:{
+    filterDate(time){
+        return moment(time).format('YYYY-MM-DD hh:mm:ss');
+    }
   }
 };
 </script>

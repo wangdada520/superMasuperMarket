@@ -2,6 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 
+// 引入request
+import request from './utils/request'
+// 挂载原型
+Vue.prototype.request = request;
 
 // 引入echarts文件 并挂载在Vue原型上
 import echarts from 'echarts';

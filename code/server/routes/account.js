@@ -3,11 +3,46 @@ var router = express.Router();
 // 引入数据库连接模块
 const connection = require('./js/conn')
 
-/* GET home page. */
-router.post('/ljAccountadd',(req, res)=> {
+//统一设置响应头
+router.all('*',(req,res,next) => {
 	//设置跨域
 	res.setHeader('Access-Control-Allow-Origin','*');
-  res.send('测试账号路由');
+	next();
+})
+
+/* 添加账户路由 */
+router.post('/ljAccountadd',(req, res)=> {
+	//接受数据
+	let {account,password,region} = req.body;
+	
+	//准备sql
+	const sqlStr = `insert into account(account,password,user_group) values('${account}','${password}','${region}')`;
+	//console.log(sqlStr)
+	//执行sql
+	connection.query(sqlStr,(err,data) => {
+		if (err) throw err;
+		//判断受影响行数
+		if(data.affectedRows > 0){
+			res.send({code:0,reason:"添加账户成功"});
+		}else{
+			res.send({code:1,reason:"添加账户失败"});
+		}
+	})
 });
+
+//请求账户列表路由
+router.get('/accountlist',(req,res) => {
+	//准备sql
+	const sqlStr = `select * from account order by create_date desc`;
+	console.log(sqlStr)
+	//执行sql
+	connection.query(sqlStr,(err,data) => {
+		if (err) throw err;
+		res.send(data);
+	})
+})
+
+
+
 
 module.exports = router;
