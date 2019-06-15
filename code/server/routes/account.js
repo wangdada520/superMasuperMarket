@@ -34,7 +34,7 @@ router.post('/ljAccountadd',(req, res)=> {
 router.get('/accountlist',(req,res) => {
 	//准备sql
 	const sqlStr = `select * from account order by create_date desc`;
-	console.log(sqlStr)
+	//console.log(sqlStr)
 	//执行sql
 	connection.query(sqlStr,(err,data) => {
 		if (err) throw err;
@@ -42,6 +42,24 @@ router.get('/accountlist',(req,res) => {
 	})
 })
 
+//删除账户列表路由
+router.get('/delaccount',(req,res) => {
+	//接受数据
+	let { id } = req.query;
+	//准备sql
+	const sqlStr = `delete from account where id=${id}`;
+	console.log(sqlStr)
+	//执行sql
+	connection.query(sqlStr,(err,data) => {
+		if (err) throw err;
+		//判断受影响行数
+		if(data.affectedRows > 0){
+			res.send({code:0,reason:"删除账户成功"});
+		}else{
+			res.send({code:1,reason:"删除账户失败"});
+		}
+	})
+})
 
 
 

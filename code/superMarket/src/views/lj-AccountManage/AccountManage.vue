@@ -34,11 +34,11 @@
                         <el-button
                         size="mini"
                         type="primary"
-                        @click="handleEdit(scope.$index, scope.row)"><i class="el-icon-edit"></i> 修改</el-button>
+                        @click="handleEdit(scope.row.id)"><i class="el-icon-edit"></i> 修改</el-button>
                         <el-button
                         size="mini"
                         type="danger"
-                        @click="handleDelete(scope.$index, scope.row)"><i class="el-icon-delete"></i> 删除</el-button>
+                        @click="handleDelete(scope.row.id)"><i class="el-icon-delete"></i> 删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -78,8 +78,51 @@ export default {
     };
   },
   methods: {
-    handleEdit() {},
-    handleDelete() {},
+    //   请求所有账户数据
+    getAccountList(){
+        //   发送ajax  请求所有数据
+        this.request.get('/account/accountlist')
+            .then(res => {
+                this.tableData = res;
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    },
+    // 修改
+    handleEdit(id) {
+        // 接受参数
+        let params = { id };
+        // console.log(params)
+    },
+    // 删除
+    handleDelete(id) {
+        // 接受参数
+        let params = { id };
+        // console.log(params)
+        //   发送ajax请求
+        this.request.get('/account/delaccount',params)
+            .then(res => {
+                // 接受后台数据
+                let {code,reason} = res;
+                // 判断
+                if(code === 0){
+                    // 弹出成功提示
+                    this.$message({
+                        message: reason,
+                        type: 'success'
+                    });
+                    // 刷新列表
+                    this.getAccountList();
+                }else if(code === 1){
+                    // 弹出失败提示
+                    this.$message.error('错了哦，这是一条错误消息');
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    },
     // 取消选择
     toggleSelection(rows) {
       if (rows) {
@@ -95,14 +138,7 @@ export default {
   },
 //   钩子函数 
   created(){
-    //   发送ajax  请求所有数据
-    this.request.get('/account/accountlist')
-        .then(res => {
-            this.tableData = res;
-        })
-        .catch(err => {
-            console.log(err);
-        })
+    this.getAccountList();
   },
   filters:{
     filterDate(time){
