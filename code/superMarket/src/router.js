@@ -107,7 +107,16 @@ export default new Router({
           path: "/home/AddInventory", // 路径
           component: () => import("./views/AddInventory/AddInventory.vue"), //组件
         },
-       
+        //会员-添加账户
+        {
+          path: "/home/MemberAdd", // 路径
+          component: () => import("./views/MemberAdd/MemberAdd.vue"), //组件
+        },
+        //会员-账户管理
+        {
+          path: "/home/MemberManage", // 路径
+          component: () => import("./views/MemberManage/MemberManage.vue"), //组件
+        },
       ]
     },
 

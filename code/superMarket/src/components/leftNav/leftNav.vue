@@ -83,8 +83,8 @@ export default {
           iconclass: "el-icon-user-solid",
           title: "会员管理",
           childer: [
-            { path: "/home/AccountManage", subtitle: "账号管理" },
-            { path: "/home/AccountAdd", subtitle: "添加账号" },
+            { path: "/home/MemberManage", subtitle: "账号管理" },
+            { path: "/home/MemberAdd", subtitle: "添加账号" },
             ]
         },
         // 系统管理
