@@ -59,6 +59,39 @@ router.get('/delaccount',(req,res) => {
 			res.send({code:1,reason:"删除账户失败"});
 		}
 	})
+});
+// 修改 数据回填
+router.get('/editaccount',(req,res)=>{
+	// 接收数据
+	let {id}=req.query;
+	// 准备sql
+	const sqlStr = `select * from account where id =${id}`
+	//执行sql
+	connection.query(sqlStr,(err,data) => {
+		if (err) throw err;
+		console.log(data);
+		// res.send(111);
+	      res.send(data )//响应数据给前端
+	})
+	
+})
+
+// 修改  确定按钮
+router.post('/saveEditaccount',(req,res)=>{
+	// 接收数据
+	let {account,user_group,EditId} = req.body;
+	// 准备sql
+	const sqlStr = `update account set account='${account}', user_group='${user_group}' where id=${EditId}`;
+		//执行sql
+		connection.query(sqlStr,(err,data) => {
+			if (err) throw err;
+			//判断受影响行数
+			if(data.affectedRows > 0){
+				res.send({code:0,reason:"修改账户成功"});
+			}else{
+				res.send({code:1,reason:"修改账户失败"});
+			}
+		})
 })
 
 
