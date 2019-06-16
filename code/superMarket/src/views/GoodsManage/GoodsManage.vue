@@ -33,8 +33,8 @@
           </div>
           <!-- 商品条形码 -->
           <el-table :data="tableData" stripe style="width: 100%">
-            <el-table-column prop="bar" label="商品条形码" ></el-table-column>
-            <el-table-column prop="name" label="商品名称" ></el-table-column>
+            <el-table-column prop="bar" label="商品条形码"></el-table-column>
+            <el-table-column prop="name" label="商品名称"></el-table-column>
             <el-table-column prop="classify" label="所属分类"></el-table-column>
             <el-table-column prop="price" label="售价(元)"></el-table-column>
             <el-table-column prop="promotion" label="促销价(元)"></el-table-column>
@@ -42,8 +42,25 @@
             <el-table-column prop="repertory" label="库存"></el-table-column>
             <el-table-column prop="amoun" label="库存总额(元)"></el-table-column>
             <el-table-column prop="total" label="销售总额(元)"></el-table-column>
-            <el-table-column prop="manage" label="管理"></el-table-column>
+            <el-table-column prop="manage" label="管理">
+                <template >
+              <el-button type="primary" icon="el-icon-edit" circle></el-button>
+            <el-button type="danger" icon="el-icon-delete" circle></el-button>
+            </template>
+            </el-table-column>
+            
           </el-table>
+           <!-- 分页功能 -->
+        <el-pagination
+           style="margin-top: 20px"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[10, 20, 30, 40]"
+          :page-size="100"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+        ></el-pagination>
         </el-form>
       </div>
     </el-card>
@@ -54,32 +71,96 @@
 export default {
   data() {
     return {
-        accountForm:{
-            region:""
-
-        },
+      accountForm: {
+        region: ""
+      },
       //表单数据
       tableData: [
-          {
-             bar:222222 ,
-             name:"",
-             classify:"",
-             price:"",
-             promotion:"",
-             market:"",
-             repertory:"",
-             amoun:"",
-             total:"",
-             manage:""
-
-
-
-
-
-          }
-      ]
+        {
+          bar: 222222,
+          name: "我的优乐美",
+          classify: "优乐美",
+          price: "2.00",
+          promotion: "未促销",
+          market: "2.40",
+          repertory: "0(缺)",
+          amoun: "0.00",
+          total: "0.00",
+          manage: ""
+        },
+        {
+          bar: 222222,
+          name: "我的优乐美",
+          classify: "优乐美",
+          price: "2.00",
+          promotion: "未促销",
+          market: "2.40",
+          repertory: "0(缺)",
+          amoun: "0.00",
+          total: "0.00",
+          manage: ""
+        },
+        {
+          bar: 222222,
+          name: "我的优乐美",
+          classify: "优乐美",
+          price: "2.00",
+          promotion: "未促销",
+          market: "2.40",
+          repertory: "0(缺)",
+          amoun: "0.00",
+          total: "0.00",
+          manage: ""
+        },
+        {
+          bar: 222222,
+          name: "我的优乐美",
+          classify: "优乐美",
+          price: "2.00",
+          promotion: "未促销",
+          market: "2.40",
+          repertory: "0(缺)",
+          amoun: "0.00",
+          total: "0.00",
+          manage: ""
+        },
+        {
+          bar: 222222,
+          name: "我的优乐美",
+          classify: "优乐美",
+          price: "2.00",
+          promotion: "未促销",
+          market: "2.40",
+          repertory: "0(缺)",
+          amoun: "0.00",
+          total: "0.00",
+          manage: ""
+        },
+        {
+          bar: 222222,
+          name: "我的优乐美",
+          classify: "优乐美",
+          price: "2.00",
+          promotion: "未促销",
+          market: "2.40",
+          repertory: "0(缺)",
+          amoun: "0.00",
+          total: "0.00",
+          manage: ""
+        }
+      ],
+        currentPage:1,//当前页
+      total:11,
     };
-  }
+  },
+  // 分页
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+      handleCurrentChange(val) {
+        console.log(`当前页: ${val}`);
+      }
+    
 };
 </script>
 

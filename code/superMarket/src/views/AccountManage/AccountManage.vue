@@ -13,7 +13,7 @@
           <el-table-column prop="account" label="账号"></el-table-column>
 
           <!-- 用户组 -->
-          <el-table-column prop="userGroup" label="用户组" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="user_group" label="用户组" show-overflow-tooltip></el-table-column>
 
           <!-- 创建账号日期 -->
           <el-table-column label="日期">
@@ -23,10 +23,10 @@
           <!-- 操作 -->
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button type="primary" size="mini" @click="handleEdit(scope.$index, scope.row)">
+              <el-button type="primary" size="mini" @click="handleEdit(scope.row.id)">
                 <i class="el-icon-edit"></i>修改
               </el-button>
-              <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">
+              <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">
                 <i class="el-icon-delete"></i>删除
               </el-button>
             </template>
@@ -58,48 +58,7 @@ import moment from 'moment'
 export default {
   data() {
     return {
-      accountData: [
-        {
-          account: "王大大",
-          userGroup: "超级管理员",
-          Ctime: "2019-6-13"
-        },
-        {
-          account: "杰哥哥",
-          userGroup: "超级管理员",
-          Ctime: "2019-6-13"
-        },
-        {
-          account: "王大大",
-          userGroup: "超级管理员",
-          Ctime: "2019-6-13"
-        },
-        {
-          account: "杰哥哥",
-          userGroup: "超级管理员",
-          Ctime: "2019-6-13"
-        },
-        {
-          account: "王大大",
-          userGroup: "超级管理员",
-          Ctime: "2019-6-13"
-        },
-        {
-          account: "杰哥哥",
-          userGroup: "超级管理员",
-          Ctime: "2019-6-13"
-        },
-        {
-          account: "王大大",
-          userGroup: "超级管理员",
-          Ctime: "2019-6-13"
-        },
-        {
-          account: "杰哥哥",
-          userGroup: "超级管理员",
-          Ctime: "2019-6-13"
-        }
-      ],
+      accountData: [],
       currentPage:1,//当前页
       total:11,
 
@@ -111,7 +70,7 @@ export default {
         //   发送ajax  请求所有数据
         this.request.get('/account/accountlist')
             .then(res => {
-                this.tableData = res;
+                this.accountData = res;
             })
             .catch(err => {
                 console.log(err);

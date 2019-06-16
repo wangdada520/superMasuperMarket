@@ -66,9 +66,10 @@ router.get('/delaccount',(req,res) => {
 // wdd添加账户路由
 router.post('/accountadd',(req,res)=>{
 	// 接收数据
-	let {account,password,region} = req.body;
+	let {account,password,user_group} = req.body;
 	// 准备sql
-	const sqlStr = `insert into account(account,password,user_group) values('${account}','${password}','${userGroup}')`;
+	const sqlStr = `insert into account(account,password,user_group) values('${account}','${password}','${user_group}')`;
+	console.log(sqlStr);
 	// 执行sql
 	connection.query(sqlStr,(err,data) => {
 		if (err) throw err;

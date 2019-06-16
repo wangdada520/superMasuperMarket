@@ -29,8 +29,8 @@
             <el-input type="password" v-model="accountForm.checkPass" autocomplete="off"></el-input>
           </el-form-item>
           <!-- 选择用户组 -->
-          <el-form-item label="选择用户组" prop="userGroup">
-            <el-select v-model="accountForm.userGroup" placeholder="选择用户组">
+          <el-form-item label="选择用户组" prop="user_group">
+            <el-select v-model="accountForm.user_group" placeholder="选择用户组">
               <el-option label="高级用户" value="高级用户"></el-option>
               <el-option label="普通用户" value="高级用户"></el-option>
             </el-select>
@@ -85,7 +85,7 @@ export default {
         account: "",
         password: "",
         checkPass: "",
-        userGroup:''
+        user_group:''
       },
       //验证规则
       rules: {
@@ -101,7 +101,7 @@ export default {
         checkPass: [
           { required: true, validator: validatePass, trigger: "blur" }
         ],
-        userGroup: [
+        user_group: [
           { required: true, message: '请选择用户组', trigger: "change" }
         ]
       }
@@ -115,9 +115,9 @@ export default {
           let params = {
             account: this.accountForm.account,
             password: this.accountForm.password,
-            userGroup: this.accountForm.userGroup,
+            user_group: this.accountForm.user_group,
           };
-          
+          // console.log(params);
           //发送ajax请求，把数据发送给后端
           this.request.post('/account/accountadd',params)
           .then(res=>{
