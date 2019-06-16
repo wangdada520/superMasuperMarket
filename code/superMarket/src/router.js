@@ -9,7 +9,7 @@ export default new Router({
     {
       //根目录定向到登录 
       path: "/", // 路径
-     redirect:'login'
+     redirect:'/login'
     },
     //登录
     {
@@ -19,6 +19,7 @@ export default new Router({
     //后台主界面
     {
       path: "/home", // 路径
+      redirect: '/home/systeminfo',
       component: () => import("./views/Home/Home.vue"), //组件
       children: [
         // 系统信息组件

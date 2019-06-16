@@ -8,7 +8,7 @@
             <div class="text item">
                 <!-- 查询 -->
                 <el-form :inline="true" :model="AddInventoryForm" class="demo-form-inline">
-                    <el-form-item label="分类" size="small">
+                    <el-form-item label="分类" size="small" class="fenlei">
                         <el-select v-model="AddInventoryForm.region" placeholder="--选择分类--">
                         <el-option label="区域一" value="shanghai"></el-option>
                         <el-option label="区域二" value="beijing"></el-option>
@@ -121,6 +121,9 @@ export default {
                 display: inline-block;
                 margin-top: 10px;
                 margin-right: 10px;
+            }
+            .fenlei{
+                margin-top: 5px;
             }
         }
         .el-divider--horizontal{
