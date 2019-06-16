@@ -78,10 +78,20 @@ export default new Router({
           path: "/home/salesTotal", // 路径
           component: () => import("./views/salesTotal/salesTotal.vue"), //组件
         },
+        //李杰-销售统计
+        {
+          path: "/home/ljsalesTotal", // 路径
+          component: () => import("./views/lj-salesTotal/salesTotal.vue"), //组件
+        },
         //进货统计
         {
           path: "/home/stockTotal", // 路径
           component: () => import("./views/Stocktotal/Stocktotal.vue"), //组件
+        },
+        //李杰-进货统计
+        {
+          path: "/home/ljstockTotal", // 路径
+          component: () => import("./views/lj-Stocktotal/Stocktotal.vue"), //组件
         },
         //销售列表
         {

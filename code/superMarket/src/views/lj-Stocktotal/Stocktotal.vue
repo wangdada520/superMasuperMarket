@@ -1,35 +1,34 @@
 <template>
-  <div class="Stock-total">
-    <!-- 面板内容 -->
-    <el-card class="box-card">
-      <!-- 头部 -->
-      <div slot="header" class="clearfix">
-        <span>进货数据统计</span>
-      </div>
-      <!-- 内容 -->
-      <div class="block">
-        <!-- 开始时间 -->
-        <span class="demonstration">时间：</span>
-        <el-date-picker style="width:150px" size="small" v-model="value1" type="date" placeholder="2019-4-1"></el-date-picker>
-        <!-- 结束时间 -->
-        --
-        <el-date-picker
-        style="width:150px"
-          size="small"
-          v-model="value2"
-          align="right"
-          type="date"
-          placeholder="2019-6-14"
-          :picker-options="pickerOptions"
-        ></el-date-picker>
-            <el-button style="margin-left:5px" size='small' type="success">查询</el-button>
-      </div>
-      <div class="text item">
-        <!-- 准备一个容器 -->
-        <div id="box" style="height:400px"></div>
-      </div>
-    </el-card>
-  </div>
+    <div class="stock-total">
+        <el-card class="box-card">
+            <!-- 头部 -->
+            <div slot="header" class="clearfix">
+                <h1>进货数据统计</h1>
+            </div>
+            <!-- 内容 -->
+            <div class="block">
+                <!-- 开始时间 -->
+                <span class="demonstration">时间：</span>
+                <el-date-picker style="width:150px" size="small" v-model="value1" type="date" placeholder="2019-4-1"></el-date-picker>
+                <!-- 结束时间 -->
+                --
+                <el-date-picker
+                style="width:150px"
+                size="small"
+                v-model="value2"
+                align="right"
+                type="date"
+                placeholder="2019-6-14"
+                :picker-options="pickerOptions"
+                ></el-date-picker>
+                <el-button style="margin-left:5px" size='small' type="success">查询</el-button>
+            </div>
+            <div class="text item">
+                <!-- 准备一个容器 -->
+                <div id="box" style="height:400px"></div>
+            </div>
+        </el-card>
+    </div>
 </template>
 
 <script>
@@ -92,26 +91,16 @@ export default {
         {
           name: "销量",
           type: "line",
-          data: [5, 20, 40, 10, 10, 20,30,40,30,10,20,39]
+          data: [5, 20, 40, 20, 15, 20, 22, 28, 30, 26, 20, 39]
         }
       ]
     };
     //   使用配置生成报表
     myChart.setOption(option);
   }
-
-
 }
-    
 </script>
 
 <style lang="less">
-.Stock-total {
-  .el-card {
-    .el-card__header {
-      font-size: 22px;
-      font-weight: 600;
-    }
-  }
-}
+    
 </style>
