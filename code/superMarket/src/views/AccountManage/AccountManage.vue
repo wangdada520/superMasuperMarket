@@ -123,6 +123,7 @@ export default {
            currentPage:this.currentPage,
            pageSize:this.pageSize
       }
+      // console.log(params)
       // 请求数据
       this.request.get('/account/accountpage',params)
       .then(res=>{
@@ -134,7 +135,7 @@ export default {
          // 如果这一页已经没有数据了
         if(!data.length&&this.currentPage !==1){
           // 回到上一页
-          this.currentPage-=1;
+          this.currentPage -= 1;
           // 调用自己
           this.getAccountListpage()
         }

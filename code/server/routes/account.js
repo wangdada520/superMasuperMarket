@@ -116,7 +116,7 @@ router.get('/accountpage',(req,res)=>{
 	// 接收参数
 	let {currentPage,pageSize}=req.query;
 	// 构造sql
-	let sqlStr=`select * from account order by create date desc`
+	let sqlStr=`select * from account order by create_date desc`
 	// 执行sql
 	connection.query(sqlStr,(err,data)=>{
 		if(err) throw err;
