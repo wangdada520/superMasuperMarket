@@ -16,6 +16,11 @@ export default new Router({
       path: "/login", // 路径
       component: () => import("./views/login/Login.vue") //组件
     },
+    //李杰-登录
+    {
+      path: "/ljlogin", // 路径
+      component: () => import("./views/lj-login/lj-login.vue") //组件
+    },
     //后台主界面
     {
       path: "/home", // 路径

@@ -48,9 +48,9 @@
                 <el-pagination
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
-                    :current-page="currentPage4"
-                    :page-sizes="[10, 20, 30, 40]"
-                    :page-size="10"
+                    :current-page="currentPage"
+                    :page-sizes="[1, 3, 5, 8]"
+                    :page-size="pageSize"
                     layout="total, sizes, prev, pager, next, jumper"
                     :total="total">
                 </el-pagination>
@@ -92,9 +92,11 @@ export default {
             // 表格数据
             tableData: [],
             //  当前页
-            currentPage4:1,
+            currentPage:1,
             // 总页数
             total:100,
+            // 每页的条数                                
+            pageSize:1,
             dialogFormVisible: false,
             form: {
                 account: '',
@@ -113,16 +115,16 @@ export default {
     },
     methods: {
         //   请求所有账户数据
-        getAccountList(){
-            //   发送ajax  请求所有数据
-            this.request.get('/account/accountlist')
-                .then(res => {
-                    this.tableData = res;
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-        },
+        // getAccountList(){
+        //     //   发送ajax  请求所有数据
+        //     this.request.get('/account/accountlist')
+        //         .then(res => {
+        //             this.tableData = res;
+        //         })
+        //         .catch(err => {
+        //             console.log(err);
+        //         })
+        // },
         // 修改
         handleEdit(id) {
             // 接受参数
@@ -164,7 +166,8 @@ export default {
                                 type:"success",
                                 message:reason
                             })
-                            this.getAccountList()
+                            // this.getAccountList();
+                            this.getAccountListpage();
                             }else if(code===1){
                             this.$message.err(reason)
                             }
@@ -204,7 +207,8 @@ export default {
                             type: 'success'
                         });
                         // 刷新列表
-                        this.getAccountList();
+                        // this.getAccountList();
+                        this.getAccountListpage();
                     }else if(code === 1){
                         // 弹出失败提示
                         this.$message.error('错了哦，这是一条错误消息');
@@ -231,10 +235,6 @@ export default {
                 this.$refs.multipleTable.clearSelection();
             }
         },
-        // 总页数
-        handleSizeChange(){},
-        // 当前页
-        handleCurrentChange(){},
         // 保存全选的id
         handleSelectionChange(val){
             // console.log(val)
@@ -269,7 +269,8 @@ export default {
                                 type: 'success'
                             });
                             // 刷新列表
-                            this.getAccountList();
+                            // this.getAccountList();
+                            this.getAccountListpage();
                         }else if(code === 1){
                             // 弹出失败提示
                             this.$message.error('错了哦，这是一条错误消息');
@@ -284,11 +285,57 @@ export default {
                     message: '已取消删除'
                 }); 
             })
-        }
+        },
+
+
+        // 分页
+        // 每页的条数
+        handleSizeChange(v){
+            // console.log(v);
+            this.pageSize = v;
+            // console.log(this.pageSize)
+            this.getAccountListpage();            
+        },
+        // 当前页
+        handleCurrentChange(v){
+            // console.log(v);
+            this.currentPage = v;
+            // console.log(this.currentPage) 
+            this.getAccountListpage();
+        },
+        // 按照分页请求数据
+        getAccountListpage(){
+            // 收集数据
+            let params = {
+                pageSize : this.pageSize,
+                currentPage : this.currentPage
+            }
+            // console.log(params);
+            // 发送请求
+            this.request.get('/account/accountpage',params)
+                .then(res => {
+                    // console.log(res);
+                    this.total = res.total;
+                    this.tableData = res.data;
+
+                     // 如果这一页已经没有数据了
+                    if(!data.length&&this.currentPage !==1){
+                    // 回到上一页
+                    this.currentPage -= 1;
+                    // 调用自己
+                    this.getAccountListpage()
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        },
+        
     },
     //   钩子函数 
     created(){
-        this.getAccountList();
+        // this.getAccountList();
+        this.getAccountListpage();
     },
     filters:{
         filterDate(time){

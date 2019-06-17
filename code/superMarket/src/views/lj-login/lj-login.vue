@@ -6,8 +6,8 @@
                 <el-form-item label="账户" prop="account">
                     <el-input type="text" v-model="ruleForm.account" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="密码" prop="pass">
-                    <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+                <el-form-item label="密码" prop="password">
+                    <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="确认密码" prop="checkPass">
                     <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
@@ -22,7 +22,7 @@
 </template>
 <script>
 // 引入密码正则验证
-// import { passwordReg } from '@/utils/validator.js'
+import { passwordReg } from '@/utils/validator.js'
 
 export default {
   data() {
@@ -30,7 +30,7 @@ export default {
     var confirmPassword = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("不能为空"));
-      } else if (value !== this.ruleForm.pass) {
+      } else if (value !== this.ruleForm.password) {
         callback(new Error("两次密码不一致"));
       } else {
         callback();
@@ -55,7 +55,7 @@ export default {
       // 表单数据
       ruleForm: {
         account: "",
-        pass: "",
+        password: "",
         checkPass: ""
       },
       // 验证规则
@@ -66,7 +66,7 @@ export default {
           { min: 3, max: 6, message: "账户长度3-6", trigger: "blur" }
         ],
         // 密码
-        pass: [{ required: true, validator: checkPassword, trigger: "blur" }],
+        password: [{ required: true, validator: checkPassword, trigger: "blur" }],
         // 确认密码
         checkPass: [
           { required: true, validator: confirmPassword, trigger: "blur" }
@@ -81,10 +81,18 @@ export default {
         if (valid) {
           let params = {
             account: this.ruleForm.account,
-            password: this.ruleForm.pass
+            password: this.ruleForm.password
           };
-          alert("登陆成功");
-          this.$router.push("/home");
+          // console.log(params)
+          // 发送请求
+          this.request.post('/login/login',params)
+            .then(res => {
+              console.log(res);
+            })
+            .catch(err => {
+              console.log(err)
+            })
+          // this.$router.push("/home");
         } else {
           console.log("前段验证不通过，不允许提交");
           return false;
@@ -99,7 +107,7 @@ export default {
 };
 </script>
 <style lang="less">
-@import "./login.less";
+@import "./lj-login.less";
 </style>
 
 
