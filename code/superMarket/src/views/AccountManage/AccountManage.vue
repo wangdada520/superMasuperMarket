@@ -6,7 +6,7 @@
       </div>
       <!-- n内容 -->
       <div class="text item">
-        <el-table ref="multipleTable" :data="accountData" tooltip-effect="dark" style="width: 100%">
+        <el-table  @selection-change="handleSelectionChange" ref="multipleTable" :data="accountData" tooltip-effect="dark" style="width: 100%">
           <el-table-column type="selection"></el-table-column>
 
           <!-- 账号 -->
@@ -57,14 +57,14 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
-          :page-sizes="[10, 20, 30, 40]"
-          :page-size="10"
-          layout="total, sizes, prev, pager, next, jumper"
+          :page-sizes="[1, 4, 5, 8]"
+          :page-size="pageSize"
+          layout="total,sizes, prev, pager, next, jumper"
           :total="total"
         ></el-pagination>
         <!-- 删除和全选 -->
         <div style="margin-top: 20px">
-          <el-button type="success">批量删除</el-button>
+          <el-button type="success" @click="batchDel()">批量删除</el-button>
           <el-button type="danger" @click="toggleSelection()">取消选择</el-button>
         </div>
       </div>
@@ -79,7 +79,8 @@ export default {
     return {
       accountData: [],
       currentPage: 1, //当前页
-      total: 11,
+      pageSize:3,
+      total: 2,
       editFrom: {
         //修改模态框的数据
         account: "",
@@ -90,7 +91,7 @@ export default {
       EditId:'',
       dialogFormVisible: false,
       formLabelWidth:'100px',//修改表单的宽度
-      rules:{
+      rules:{//修改表单验证
          account: [
           { required: true, message: "请输入账号", trigger: "blur" },
           { min: 3, max: 6, message: "账号长度3-6位", trigger: "blur" }
@@ -98,21 +99,50 @@ export default {
           user_group: [
           { required: true, message: '请选择用户组', trigger: "change" }
         ]
-      }
+      },
+      selectedId:[]//批量删除
     };
   },
   methods: {
     //   请求所有账户数据
-    getAccountList() {
-      //   发送ajax  请求所有数据
-      this.request
-        .get("/account/accountlist")
-        .then(res => {
-          this.accountData = res;
-        })
-        .catch(err => {
-          console.log(err);
-        });
+    // getAccountList() {
+    //   //   发送ajax  请求所有数据
+    //   this.request
+    //     .get("/account/accountlist")
+    //     .then(res => {
+    //       this.accountData = res;
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     });
+    // },
+    // 按照分页请求数据
+    getAccountListpage(){
+      // 收集参数
+      let params={
+           currentPage:this.currentPage,
+           pageSize:this.pageSize
+      }
+      // 请求数据
+      this.request.get('/account/accountpage',params)
+      .then(res=>{
+        // 接收后端数据
+        let {total,data}=res;
+         // 赋值给对应变量
+        this.total=total;
+        this.accountData=data;
+         // 如果这一页已经没有数据了
+        if(!data.length&&this.currentPage !==1){
+          // 回到上一页
+          this.currentPage-=1;
+          // 调用自己
+          this.getAccountListpage()
+        }
+      })
+      .catch(err=>{
+        console.log(err);
+        
+      })
     },
 
     //    修改
@@ -153,7 +183,7 @@ export default {
               type: "success"
             });
             // 刷新列表
-            this.getAccountList();
+              this.getAccountListpage()
           } else if (code === 1) {
             // 弹出失败提示
             this.$message.error("错了哦，这是一条错误消息");
@@ -193,7 +223,8 @@ export default {
                 type:"success",
                 message:reason
               })
-              this.getAccountList()
+             // 刷新列表
+              this.getAccountListpage()
             }else if(code===1){
               this.$message.err(reason)
             }
@@ -208,19 +239,79 @@ export default {
 
     })
     },
+    // 选中选择框的状态，触发的的事件
+    handleSelectionChange(val){
+      // 获取选中的id 放入一个数组
+      this.selectedId=val.map(v=>v.id)
+      console.log(val);
+      
+
+    },
+    // 批量删除
+    batchDel(){
+      if(!this.selectedId.lenght){
+        // 弹错误提示
+        this.$message.error('请选择需要批量删除的用户！！')
+        return
+      }
+
+      // 删除提示
+      this.$confirm('你确定要删除吗？','温馨提示',{
+        confirmbuttontext:'确定',
+        cancelbutttontext:'取消',
+        type:'warning'
+      }).then(()=>{   //确定
+          // 收集id
+      let params={
+           idArr:this.selectedId
+      }
+      // 发送请求给后端 把选中的id一起发给后端
+      this.request.get('/account/batchdel',params)
+      .then(res=>{
+         let {code,reason}=res;
+          if(code===0){
+              this.$message({
+                type:"success",
+                message:reason
+              })
+              // 刷新列表
+              this.getAccountListpage()
+            }else if(code===1){
+              // 弹出失败信息
+              this.$message.err(reason)
+            }        
+      })
+      .catch(err=>{
+        console.log(err);
+        
+      })
+      }).catch(()=>{  //取消
+        this.$message({
+          type:'info',
+          message:'取消'
+        })
+      })
+    
+    },
 
     // 分页
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      // 赋值
+      this.pageSize=val    
+      // 调用分页  // 
+      this.getAccountListpage()
     },
+    // 当前的页码改变
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      this.currentPage=val
+      // 调用分页  // 
+      this.getAccountListpage()
     }
   },
   // 钩子函数-vue实例对象创建完成，dom还没有生成
   created() {
     // 发送axios请求  请求所有的账号和数据
-    this.getAccountList();
+    this.getAccountListpage();
   },
   filters: {
     filterDate(time) {
