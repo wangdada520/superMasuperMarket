@@ -57,7 +57,7 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
-          :page-sizes="[1, 4, 5, 8]"
+          :page-sizes="[1, 3, 5, 8]"
           :page-size="pageSize"
           layout="total,sizes, prev, pager, next, jumper"
           :total="total"
@@ -79,7 +79,7 @@ export default {
     return {
       accountData: [],
       currentPage: 1, //当前页
-      pageSize:3,
+      pageSize:3,//每页的条数
       total: 2,
       editFrom: {
         //修改模态框的数据
@@ -243,14 +243,15 @@ export default {
     // 选中选择框的状态，触发的的事件
     handleSelectionChange(val){
       // 获取选中的id 放入一个数组
-      this.selectedId=val.map(v=>v.id)
-      console.log(val);
-      
+      this.selectedId=val.map(v=>v.id) //循环选中的数据
+      // console.log(this.selectedId)
 
     },
     // 批量删除
     batchDel(){
-      if(!this.selectedId.lenght){
+      console.log(this.selectedId)
+
+      if(!this.selectedId.length){
         // 弹错误提示
         this.$message.error('请选择需要批量删除的用户！！')
         return
@@ -258,8 +259,8 @@ export default {
 
       // 删除提示
       this.$confirm('你确定要删除吗？','温馨提示',{
-        confirmbuttontext:'确定',
-        cancelbutttontext:'取消',
+        confirmButtonText:'确定',
+        cancelButttonText:'取消',
         type:'warning'
       }).then(()=>{   //确定
           // 收集id

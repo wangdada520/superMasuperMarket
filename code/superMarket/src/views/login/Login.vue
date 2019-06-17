@@ -28,8 +28,8 @@
         </el-form-item>
         <!-- 登录按钮 -->
         <el-form-item>
-          <el-button type="primary" @click="submitForm('loginForm')">登录</el-button>
-          <el-button @click="resetForm('loginForm')">重置</el-button>
+          <el-button type="primary" @click="submitForm('')">登录</el-button>
+          <el-button @click="resetForm('')">重置</el-button>
         </el-form-item>       
       </el-form>
     </div>
@@ -97,9 +97,33 @@ export default {
             account: this.loginForm.account,
             password: this.loginForm.password
           };
-          alert("登录成功！");
-          //路由跳转
-          this.$router.push("/home");
+          // console.log(params)
+        // 把参数发送给后端
+        this.request.post('/login/checklogin',params)
+        .then(Response=>{
+          // 接收后端响应的数据
+          let {code,reason,token}=Response
+          console.log(token)
+          // 判断
+          if(code===0){
+            // 把token存入本地存贮
+             window.localStorage.setItem('wdd_token', token)
+
+            // 弹出成功提示
+              this.$message({
+                type:"success",
+                message:reason
+              })
+            //  跳转到后台页面
+              this.$router.push('/home')//跳转到后端的首页
+            }else if(code===1){
+              // 弹出失败信息
+              this.$message.err(reason)
+            }  
+        })
+        .catch(err=>{
+          console.log(err);
+        }) 
         } else {
           console.log("验证不通过");
           return;
