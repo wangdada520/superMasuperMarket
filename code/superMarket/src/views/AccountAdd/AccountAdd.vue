@@ -51,7 +51,7 @@
 import { passwordReg } from "@/utils/validator.js";
 import qs from 'qs';
 // 引入请求方法
-import {addAccount} from '@/api/account.js'
+import {accountadd} from '@/api/account.js'
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -119,7 +119,7 @@ export default {
           };
           // console.log(params);
           //发送ajax请求，把数据发送给后端
-          this.request.post('/account/accountadd',params)
+          accountadd(params)
           .then(res=>{
             // 获取后台发送的数据
             let {code,reason}=res;

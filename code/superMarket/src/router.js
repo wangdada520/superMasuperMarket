@@ -73,10 +73,20 @@ export default new Router({
           path: "/home/goodsmanage", // 路径
           component: () => import("./views/GoodsManage/GoodsManage.vue"), //组件
         },
+        // 李杰-商品管理
+        {
+          path: "/home/ljgoodsmanage", // 路径
+          component: () => import("./views/lj-GoodsManage/GoodsManage.vue"), //组件
+        },
         // 添加商品
         {
           path: "/home/goodsadd", // 路径
           component: () => import("./views/GoodsAdd/GoodsAdd.vue"), //组件
+        },
+        // 添加商品
+        {
+          path: "/home/ljgoodsadd", // 路径
+          component: () => import("./views/lj-GoodsAdd/GoodsAdd.vue"), //组件
         },
         //销售统计
         {

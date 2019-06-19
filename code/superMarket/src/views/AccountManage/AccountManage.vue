@@ -74,6 +74,8 @@
 
 <script>
 import moment from "moment";
+// 引入请求方法
+import {accountpage,editaccount,delaccount,saveEditaccount,batchdel} from '@/api/account.js'
 export default {
   data() {
     return {
@@ -105,17 +107,17 @@ export default {
   },
   methods: {
     //   请求所有账户数据
-    // getAccountList() {
-    //   //   发送ajax  请求所有数据
-    //   this.request
-    //     .get("/account/accountlist")
-    //     .then(res => {
-    //       this.accountData = res;
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //     });
-    // },
+      // getAccountList() {
+      //   //   发送ajax  请求所有数据
+      //   this.request
+      //     .get("/account/accountlist")
+      //     .then(res => {
+      //       this.accountData = res;
+      //     })
+      //     .catch(err => {
+      //       console.log(err);
+      //     });
+      // },
     // 按照分页请求数据
     getAccountListpage(){
       // 收集参数
@@ -125,7 +127,7 @@ export default {
       }
       // console.log(params)
       // 请求数据
-      this.request.get('/account/accountpage',params)
+      accountpage(params)
       .then(res=>{
         // 接收后端数据
         let {total,data}=res;
@@ -153,7 +155,7 @@ export default {
       // 保留id
       this.EditId=id;
       // 发送请求 把id发送给后端
-      this.request.get("/account/editaccount",{id})
+      editaccount({id})
       .then(Response=>{
         // let {data}=Response.data;
         console.log(Response);
@@ -171,8 +173,7 @@ export default {
     handleDelete(id) {
     
       //   发送ajax请求
-      this.request
-        .get("/account/delaccount",{ id })
+      delaccount({id})
         .then(res => {
           // 接受后台数据
           let { code, reason } = res;
@@ -216,7 +217,7 @@ export default {
             EditId: this.EditId,
           };
           //发送ajax请求，把数据发送给后端
-          this.request.post('/account/saveEditaccount',params)
+          saveEditaccount(params)
           .then(res=>{
             let {code,reason}=res;
             if(code===0){
@@ -268,7 +269,7 @@ export default {
            idArr:this.selectedId
       }
       // 发送请求给后端 把选中的id一起发给后端
-      this.request.get('/account/batchdel',params)
+      batchdel(params)
       .then(res=>{
          let {code,reason}=res;
           if(code===0){

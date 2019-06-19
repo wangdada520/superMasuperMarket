@@ -6,15 +6,15 @@
             </div>
             <div class="text item">
                 <el-form :model="menberAddForm" :rules="rules" ref="menberAddForm" label-width="100px" class="demo-ruleForm">
-                    
+                    <!-- 真实名字 -->
                     <el-form-item label="真实名字" prop="name">
                         <el-input v-model="menberAddForm.name" class="memberwid"></el-input>
                     </el-form-item>
-
+                    <!-- 会员卡卡号 -->
                     <el-form-item label="会员卡卡号" prop="card">
                         <el-input v-model="menberAddForm.card" class="memberwid"></el-input>
                     </el-form-item>
-
+                    <!-- 用户组 -->
                     <el-form-item label="用户组" prop="user_group">
                         <el-select v-model="menberAddForm.user_group" placeholder="铜牌管理员" class="memberwid">
                             <el-option label="铜牌管理员" value="铜牌管理员"></el-option>
@@ -22,49 +22,36 @@
                             <el-option label="金牌管理员" value="金牌管理员"></el-option>
                         </el-select>
                     </el-form-item>
-
+                    <!-- 身份证号 -->
                     <el-form-item label="身份证号" prop="identity">
                         <el-input v-model="menberAddForm.identity" class="memberwid"></el-input>
                     </el-form-item>
-
+                    <!-- 用户状态 -->
                     <el-form-item label="用户状态" prop="state">
                         <el-radio-group v-model="menberAddForm.state" class="memberwid">
                             <el-radio label="启用"></el-radio>
                             <el-radio label="禁用" aria-checked="checked"></el-radio>
                         </el-radio-group>
                     </el-form-item>
-
-                    <el-form-item label="手机号码" prop="identity">
-                        <el-input v-model="menberAddForm.identity" class="memberwid"></el-input>
+                    <!-- 手机号码 -->
+                    <el-form-item label="手机号码" prop="phone">
+                        <el-input v-model="menberAddForm.phone" class="memberwid"></el-input>
                     </el-form-item>
-
-                    <el-form-item label="座机号码" prop="identity">
-                        <el-input v-model="menberAddForm.identity" class="memberwid"></el-input>
+                    <!-- 邮箱地址 -->
+                    <el-form-item label="邮箱地址" prop="email">
+                        <el-input v-model="menberAddForm.email" class="memberwid"></el-input>
                     </el-form-item>
-
-                    <el-form-item label="邮箱地址" prop="identity">
-                        <el-input v-model="menberAddForm.identity" class="memberwid"></el-input>
-                    </el-form-item>
-
+                    <!-- 地区选择 -->
                     <el-form-item label="地区选择" prop="region">
                         <el-select v-model="menberAddForm.region" placeholder="--请选择省份--" class="memberwid">
                             <el-option label="四川" value="四川"></el-option>
                             <el-option label="北京" value="北京"></el-option>
                             <el-option label="上海" value="上海"></el-option>
                         </el-select>
-                        <el-select v-model="menberAddForm.region" placeholder="--请选择城市--" class="memberwid">
-                            <el-option label="成都" value="成都"></el-option>
-                            <el-option label="绵阳" value="绵阳"></el-option>
-                            <el-option label="巴中" value="巴中"></el-option>
-                        </el-select>
                     </el-form-item>
-
-                    <el-form-item label="详细地址" prop="identity">
-                        <el-input v-model="menberAddForm.identity" class="memberwid"></el-input>
-                    </el-form-item>
-
-                    <el-form-item label="邮政编码" prop="identity">
-                        <el-input v-model="menberAddForm.identity" class="memberwid"></el-input>
+                    <!-- 详细地址 -->
+                    <el-form-item label="详细地址" prop="adress">
+                        <el-input v-model="menberAddForm.adress" class="memberwid"></el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="success" @click="submitForm('menberAddForm')">添加</el-button>
@@ -81,6 +68,10 @@ export default {
       return {
         menberAddForm: {
           name: '',
+          card:'',
+          user_group:'',
+          identity:'',
+
           region: '',
           type: [],
           resource: '',
