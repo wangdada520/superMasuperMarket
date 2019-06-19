@@ -11,7 +11,7 @@ axios.defaults.baseURL ='http://127.0.0.1:999';
 axios.interceptors.request.use(config => {
     // 获取token
     const token = local.get('wdd_token');
-    console.log(token);
+    // console.log(token);
     
     config.headers.authorization = `Bearer ${token}` 
     return config;

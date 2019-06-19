@@ -107,7 +107,7 @@ export default {
           console.log(token)
           // 判断
           if(code===0){
-            // 把token存入本地存贮
+            // 把token存入本地存贮8 8
              local.save('wdd_token', token)
 
             // 弹出成功提示

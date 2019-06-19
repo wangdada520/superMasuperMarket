@@ -68,14 +68,18 @@ export default {
     const NewPassword=(rule, value, callback) =>{
         if(value===''){
           callback(new Error('输入您的新密码！'))
-
-        }else if(!passwordReg(value)){
-          callback(new Error ('密码必须是数字和字母组合'))
-        } else {
-        if (this.passwordModify.newPassword !== "") {
-          this.$refs.passwordModify.validateField("newPassword");
         }
-        callback();
+        else if (value.length < 3 || value.length > 6) {
+          callback(new Error("密码在 3~6 位之间"));
+        }
+        else if(!passwordReg(value)){
+          callback(new Error ('密码必须是数字和字母组合'))
+        } 
+        else {
+          if (this.passwordModify.checkNewPassword !== "") {
+            this.$refs.passwordModify.validateField("checkNewPassword");
+          }
+          callback();
       }
 
 
