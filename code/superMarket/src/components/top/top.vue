@@ -16,14 +16,14 @@
           </el-col>
           <el-col :span="16">
             <!-- 登录名 -->
-            <el-dropdown>
+            <el-dropdown @command="handleCommand">
               <span class="el-dropdown-link">
                 王大大
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>个人中心</el-dropdown-item>
-                <el-dropdown-item>退出登录</el-dropdown-item>
+                <el-dropdown-item command="personal">个人中心</el-dropdown-item>
+                <el-dropdown-item command="loginout">退出登录</el-dropdown-item>
               
               </el-dropdown-menu>
             </el-dropdown>
@@ -35,7 +35,28 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    handleCommand(command){
+      if(command==='loginout'){
+        // 清除token
+        window.localStorage.removeItem('wdd_token')
+        // 弹出提示信息
+        this.$message({
+          type:'success',
+          message:'退出系统成功！！'
+        })
+        setTimeout(()=>{
+          //跳转到登录页面
+          this.$router.push('/login')
+        },500)
+      }else if(command==='personal'){
+        
+      }
+
+    }
+  },
+};
 </script>
 
 <style lang="less">

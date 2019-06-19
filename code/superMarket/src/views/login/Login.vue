@@ -28,8 +28,8 @@
         </el-form-item>
         <!-- 登录按钮 -->
         <el-form-item>
-          <el-button type="primary" @click="submitForm('')">登录</el-button>
-          <el-button @click="resetForm('')">重置</el-button>
+          <el-button type="primary" @click="submitForm()">登录</el-button>
+          <el-button @click="resetForm()">重置</el-button>
         </el-form-item>       
       </el-form>
     </div>
@@ -39,7 +39,8 @@
 <script>
 // 引入密码正则验证
 import { passwordReg } from "@/utils/validator.js";
-
+// 引入 local 文件
+import local from '@/utils/local'
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -100,14 +101,14 @@ export default {
           // console.log(params)
         // 把参数发送给后端
         this.request.post('/login/checklogin',params)
-        .then(Response=>{
+        .then(res=>{
           // 接收后端响应的数据
-          let {code,reason,token}=Response
+          let {code,reason,token}=res
           console.log(token)
           // 判断
           if(code===0){
             // 把token存入本地存贮
-             window.localStorage.setItem('wdd_token', token)
+             local.save('wdd_token', token)
 
             // 弹出成功提示
               this.$message({
@@ -118,7 +119,7 @@ export default {
               this.$router.push('/home')//跳转到后端的首页
             }else if(code===1){
               // 弹出失败信息
-              this.$message.err(reason)
+              this.$message.error(reason)
             }  
         })
         .catch(err=>{
@@ -131,9 +132,9 @@ export default {
       });
     },
     //重置
-    resetForm(formName) {
+    resetForm() {
       //重置表单
-      this.$refs[formName].resetFields();
+      this.$refs.loginForm.resetFields();
     }
   }
 };
