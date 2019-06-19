@@ -18,8 +18,12 @@
         >
           <!-- 选择分类 -->
           <el-select size="small" v-model="goods.region" placeholder="--选择分类--">
-            <el-option label="分类一" value="分类一"></el-option>
-            <el-option label="分类二" value="分类二"></el-option>
+            <el-option label="电子类" value="电子类"></el-option>
+            <el-option label="食品类" value="食品类"></el-option>
+            <el-option label="烟酒类" value="烟酒类"></el-option>
+            <el-option label="服装类" value="服装类"></el-option>
+            <el-option label="肉类" value="肉类"></el-option>
+            <el-option label="蔬菜类" value="蔬菜类"></el-option>
           </el-select>
 
           <!-- 关键字 -->

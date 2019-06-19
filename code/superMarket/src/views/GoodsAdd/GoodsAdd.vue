@@ -19,8 +19,12 @@
           <!-- 选择分类 -->
           <el-form-item label="所属分类" prop="cate_id">
             <el-select style="width:50%" v-model="goods.cate_id" placeholder="--选择分类--">
-              <el-option label="分类一" value="分类一"></el-option>
-              <el-option label="分类二" value="分类二"></el-option>
+              <el-option label="电子类" value="电子类"></el-option>
+              <el-option label="食品类" value="食品类"></el-option>
+              <el-option label="烟酒类" value="烟酒类"></el-option>
+              <el-option label="服装类" value="服装类"></el-option>
+              <el-option label="肉类" value="肉类"></el-option>
+              <el-option label="蔬菜类" value="蔬菜类"></el-option>
             </el-select>
           </el-form-item>
           <!-- 商品条形码 -->
@@ -39,7 +43,7 @@
             <el-input v-model="price"></el-input>元
           </el-form-item>
           <!-- 市场价 -->
-          <el-form-item label="市场价:" >
+          <el-form-item label="市场价:">
             <el-input v-model="seleprice"></el-input>元
             <div>默认售价是市场价的1.2倍</div>
           </el-form-item>
@@ -55,11 +59,10 @@
           <el-form-item label="商品重量:" prop="weight">
             <el-input v-model="goods.weight"></el-input>
             <div>计重商品单价为千克</div>
-
           </el-form-item>
           <!-- 商品单位 -->
           <el-form-item label="商品单位:">
-            <el-input ></el-input>
+            <el-input></el-input>
           </el-form-item>
           <!-- 会员优惠 -->
           <el-form-item label="会员优惠" prop="member">
@@ -90,27 +93,25 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
       //表单数据
-       goods:{
-        cate_id:'',//选择分类
+      goods: {
+        cate_id: "", //选择分类
         code: "",
         name: "",
         // price: "",//售价
         // saleprice: "",//市场价
-        num: 1,//入库数量
-        weight:1,//商品重量
-        saled:0,//促销
-        intro:'',//商品简介
-        member:'',
+        num: 1, //入库数量
+        weight: 1, //商品重量
+        saled: 0, //促销
+        intro: "", //商品简介
+        member: ""
         // saled:'',
-       },
-        costprice: 0,//进价
+      },
+      costprice: 0, //进价
 
-    
       // 验证规则
       rules: {
         price: [{ required: true, message: "请选择分类", trigger: "blur" }],
@@ -123,10 +124,10 @@ export default {
   methods: {
     // 添加 按钮
     onSubmit() {
-       this.$refs.goods.validate(valid => {
-         if (valid) {
-      // 获取所有的参数
-       let params = {
+      this.$refs.goods.validate(valid => {
+        if (valid) {
+          // 获取所有的参数
+          let params = {
             name: this.goods.name,
             cate_id: this.goods.cate_id,
             code: this.goods.code,
@@ -136,45 +137,42 @@ export default {
             num: this.goods.num,
             weight: this.goods.weight,
             saled: this.goods.saled,
-            intro: this.goods.intro,
+            intro: this.goods.intro
           };
           // console.log(params);
-          
+
           // 发送ajax请求 b把数据传给后端
-          this.request.post('/goodsadd/goodssaveadd',params)
-          .then(res=>{
-            // 获取后台发送的数据
-            let {code,reason}=res;
-            if(code===0){
-              this.$message({
-                message:reason,
-                type:'success'
-              });
-              // 路由跳转
-              this.$router.push("/home/GoodsManage")
-            }else{
-              this.$message.error('商品添加失败')
-            }
-
-          })
-          .catch(err=>{
-
-          })
-         }else{
-
-         }
-       })
+          this.request
+            .post("/goodsadd/goodssaveadd", params)
+            .then(res => {
+              // 获取后台发送的数据
+              let { code, reason } = res;
+              if (code === 0) {
+                this.$message({
+                  message: reason,
+                  type: "success"
+                });
+                // 路由跳转
+                this.$router.push("/home/GoodsManage");
+              } else {
+                this.$message.error("商品添加失败");
+              }
+            })
+            .catch(err => {});
+        } else {
+        }
+      });
     }
   },
   // 计算属性
   computed: {
-    price(){
-      return this.costprice*10;
+    price() {
+      return this.costprice * 10;
     },
-    seleprice(){
-      return this.price*1.2;
+    seleprice() {
+      return this.price * 1.2;
     }
-  },
+  }
 };
 </script>
 
@@ -189,7 +187,6 @@ export default {
       .item {
         .el-form {
           .el-form-item {
-            
             .el-form-item__content {
               .el-input {
                 width: 30%;

@@ -128,8 +128,7 @@ export default {
             newPassword: this.passwordModify.newPassword
           };
           //发送请求给后端
-          this.request
-            .post("/account/savepassword", params)
+          this.request.post("/account/savepassword", params)
             .then(res => {
               // 接收数据
               let { code, reason } = res;

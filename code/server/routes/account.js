@@ -173,7 +173,6 @@ router.post('/passwordmodify',(req,res)=>{
     } else {
 		res.send({code: 1, reason: '原密码输入错误'})
 	}
-	// res.send('1')
 })
 // 密码修改
 router.post('/savepassword',(req,res)=>{
