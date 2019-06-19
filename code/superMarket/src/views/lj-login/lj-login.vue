@@ -85,14 +85,28 @@ export default {
           };
           // console.log(params)
           // 发送请求
-          this.request.post('/login/login',params)
+          this.request.post('/ljlogin/login',params)
             .then(res => {
-              console.log(res);
+              // console.log(res);
+              let {code,reason,token} = res;
+              console.log(token)
+              if(code === 0){
+                // 把token存入本地存贮
+                window.localStorage.setItem('lj_token', token)
+                // 弹出成功提示
+                this.$message({
+                  message: reason,
+                  type: "success"
+                });
+                this.$router.push("/home");
+              }else if(code === 1){
+                // 弹出失败提示
+                this.$message.error(reason);
+              }
             })
             .catch(err => {
               console.log(err)
             })
-          // this.$router.push("/home");
         } else {
           console.log("前段验证不通过，不允许提交");
           return false;
