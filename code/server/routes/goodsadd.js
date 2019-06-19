@@ -10,6 +10,7 @@ const connection = require('./js/conn')
 router.all('*', (req, res, next) => {
     //设置跨域
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader("Access-Control-Allow-Headers", "authorization"); // 允许通过头部信息authorization 携带token
     next();
 })
 router.post('/goodssaveadd',(req,res)=>{
@@ -17,6 +18,7 @@ router.post('/goodssaveadd',(req,res)=>{
    let {name,code,cate_id,costprice,price,seleprice,num,weight,saled,intro}=req.body;
    //准备sql
    let sqlStr=`insert into goods(name,code,cate_id,costprice,price,seleprice,num,weight,saled,intro) values('${name}','${code}','${cate_id}','${costprice}','${price}','${seleprice}','${num}','${weight}','${saled}','${intro}')`;
+   console.log(sqlStr);
    //    执行sql
    connection.query(sqlStr,(err,data)=>{
     if (err) throw err;
@@ -27,7 +29,7 @@ router.post('/goodssaveadd',(req,res)=>{
         res.send({code:1,reason:"添加商品失败"});
     }
    })
-  
+       
 })
 
 

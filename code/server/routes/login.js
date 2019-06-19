@@ -30,6 +30,7 @@ router.use(expressJwt ({
 }).unless({
     path: ['/login/checklogin']  // 除了这个地址，其他的URL都需要验证（其他的所有请求 都要带上token 才能获取数据 否则不能获取到数据）
 })); 
+
 // 路由拦截器
 router.use(function (err, req, res, next) {
     // 如果前端没有token或者是错误的token 就会抛出如下错误

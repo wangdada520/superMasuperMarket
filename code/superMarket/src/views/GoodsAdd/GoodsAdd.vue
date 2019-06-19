@@ -28,7 +28,7 @@
             </el-select>
           </el-form-item>
           <!-- 商品条形码 -->
-          <el-form-item label="活动名称:" prop="code">
+          <el-form-item label="商品条形码:" prop="code">
             <el-input v-model="goods.code"></el-input>
             <el-button style="margin-left:5px" type="success">生成条形码</el-button>
           </el-form-item>
@@ -38,18 +38,18 @@
           <el-form-item label="商品名称:" prop="name">
             <el-input v-model="goods.name"></el-input>
           </el-form-item>
-          <!-- 商品售价 -->
-          <el-form-item label="商品售价:">
-            <el-input v-model="price"></el-input>元
-          </el-form-item>
-          <!-- 市场价 -->
-          <el-form-item label="市场价:">
-            <el-input v-model="seleprice"></el-input>元
-            <div>默认售价是市场价的1.2倍</div>
-          </el-form-item>
           <!-- 商品进价 -->
           <el-form-item label="商品进价:" prop="costprice">
-            <el-input v-model="costprice"></el-input>元
+            <el-input @blur="autoprice" v-model="goods.costprice"></el-input>元
+          </el-form-item>
+          <!-- 商品售价 -->
+          <el-form-item label="商品售价:" prop="price">
+            <el-input v-model="goods.price"></el-input>元
+          </el-form-item>
+          <!-- 市场价 -->
+          <el-form-item label="市场价:" prop="seleprice">
+            <el-input v-model="goods.seleprice"></el-input>元
+            <div>默认售价是市场价的1.2倍</div>
           </el-form-item>
           <!-- 入库数量 -->
           <el-form-item label="入库数量:" prop="awa">
@@ -61,8 +61,8 @@
             <div>计重商品单价为千克</div>
           </el-form-item>
           <!-- 商品单位 -->
-          <el-form-item label="商品单位:">
-            <el-input></el-input>
+          <el-form-item label="商品单位" prop="goodsUnit">
+            <el-input type="text" v-model="goods.goodsUnit" autocomplete="off"></el-input>
           </el-form-item>
           <!-- 会员优惠 -->
           <el-form-item label="会员优惠" prop="member">
@@ -72,7 +72,7 @@
             </el-radio-group>
           </el-form-item>
           <!-- 是否促销 -->
-          <el-form-item label="会员优惠" prop="saled">
+          <el-form-item label="是否促销" prop="saled">
             <el-radio-group v-model="goods.saled">
               <el-radio label="启用"></el-radio>
               <el-radio label="禁用"></el-radio>
@@ -101,27 +101,40 @@ export default {
         cate_id: "", //选择分类
         code: "",
         name: "",
-        // price: "",//售价
-        // saleprice: "",//市场价
+        price: "", //售价
+        saleprice: "", //市场价
+        costprice: 0, //进价
         num: 1, //入库数量
         weight: 1, //商品重量
         saled: 0, //促销
         intro: "", //商品简介
-        member: ""
-        // saled:'',
+        member: "",
+        goodsUnit: ""
       },
-      costprice: 0, //进价
 
       // 验证规则
       rules: {
-        price: [{ required: true, message: "请选择分类", trigger: "blur" }],
-        trade: [{ required: true, message: "请选择分类", trigger: "blur" }],
-        bar: [{ required: true, message: "请选择分类", trigger: "blur" }],
-        cate_id: [{ required: true, message: "请选择分类", trigger: "change" }]
+        cate_id: [{ required: true, message: "不能为空", trigger: "chang" }],
+        code: [{ required: true, message: "不能为空", trigger: "blur" }],
+        name: [{ required: true, message: "不能为空", trigger: "blur" }],
+        price: [{ required: true, message: "不能为空", trigger: "blur" }],
+        saleprice: [{ required: true, message: "不能为空", trigger: "blur" }],
+        costprice: [{ required: true, message: "不能为空", trigger: "blur" }],
+        num: [{ required: true, message: "不能为空", trigger: "change" }],
+        weight: [{ required: true, message: "不能为空", trigger: "blur" }],
+        saled: [{ required: true, message: "不能为空", trigger: "chang" }],
+        intro: [{ required: true, message: "不能为空", trigger: "blur" }],
+        member: [{ required: true, message: "不能为空", trigger: "chang" }],
+        goodsUnit: [{ required: true, message:"不能为空", trigger: "blur" }],
       }
     };
   },
   methods: {
+     // 计算价格
+    autoprice(){
+      this.goods.price=(parseFloat(this.goods.costprice)*1.5).toFixed(2)//售价
+      this.goods.seleprice=(parseFloat(this.goods.costprice)*2).toFixed(2)//市场价
+    },
     // 添加 按钮
     onSubmit() {
       this.$refs.goods.validate(valid => {
@@ -131,9 +144,9 @@ export default {
             name: this.goods.name,
             cate_id: this.goods.cate_id,
             code: this.goods.code,
-            costprice: this.costprice,
-            price: this.price,
-            seleprice: this.seleprice,
+            costprice: this.goods.costprice,
+            price: this.goods.price,
+            seleprice: this.goods.seleprice,
             num: this.goods.num,
             weight: this.goods.weight,
             saled: this.goods.saled,
@@ -142,8 +155,7 @@ export default {
           // console.log(params);
 
           // 发送ajax请求 b把数据传给后端
-          this.request
-            .post("/goodsadd/goodssaveadd", params)
+          this.request.post("/goodsadd/goodssaveadd",params)
             .then(res => {
               // 获取后台发送的数据
               let { code, reason } = res;
@@ -158,22 +170,17 @@ export default {
                 this.$message.error("商品添加失败");
               }
             })
-            .catch(err => {});
+            .catch(err => {
+              console.log(err);
+            })
         } else {
+          return false;
         }
-      });
-    }
-  },
-  // 计算属性
-  computed: {
-    price() {
-      return this.costprice * 10;
-    },
-    seleprice() {
-      return this.price * 1.2;
+      })
     }
   }
-};
+}
+
 </script>
 
 <style lang="less">
