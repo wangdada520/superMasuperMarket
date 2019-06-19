@@ -72,6 +72,10 @@
 </template>
 
 <script>
+// 引入时间格式化模块
+import moment from 'moment'
+// 引入封装的请求函数
+import { goodsPage } from '@/api/goods'
 export default {
   data() {
     return {
@@ -79,7 +83,7 @@ export default {
         region: ""
       },
       //表单数据
-      tableData: [],
+      tableData: [],//商品表单
       currentPage: 1, //当前页
       pageSize: 3, //每页的条数
       total: 2,
@@ -100,13 +104,13 @@ export default {
       };
       // console.log(params)
       // 请求数据
-      this.request.get("/goodsadd/goodspage", params)
+         goodsPage(params)
         .then(res => {
           // 接收后端数据
           let { total, data } = res;
           // 赋值给对应变量
           this.total = total;
-          this.accountData = data;
+          this.tableData = data;
           // 如果这一页已经没有数据了
           if (!data.length && this.currentPage !== 1) {
             // 回到上一页
@@ -138,7 +142,12 @@ export default {
   created() {
     // 发送axios请求  请求所有的账号和数据
     this.goodstpage();
-  }
+  },
+  filters: {
+       filterCtime(ctime) { // 过滤时间格式
+         return moment(ctime).format('YYYY-MM-DD')
+       }
+    }
 };
 </script>
 
