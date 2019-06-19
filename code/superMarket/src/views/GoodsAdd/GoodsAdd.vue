@@ -9,74 +9,75 @@
       <div class="text item">
         <el-form
           size="small"
-          :model="accountForm"
+          :model="goods"
           status-icon
           :rules="rules"
-          ref="accountForm"
+          ref="goods"
           label-width="100px"
           class="demo-ruleForm"
         >
           <!-- 选择分类 -->
-          <el-form-item label="所属分类" prop="region">
-            <el-select style="width:50%" v-model="accountForm.region" placeholder="--选择分类--">
+          <el-form-item label="所属分类" prop="cate_id">
+            <el-select style="width:50%" v-model="goods.cate_id" placeholder="--选择分类--">
               <el-option label="分类一" value="分类一"></el-option>
               <el-option label="分类二" value="分类二"></el-option>
             </el-select>
           </el-form-item>
           <!-- 商品条形码 -->
-          <el-form-item label="活动名称:" prop="bar">
-            <el-input v-model="accountForm.bar"></el-input>
+          <el-form-item label="活动名称:" prop="code">
+            <el-input v-model="goods.code"></el-input>
             <el-button style="margin-left:5px" type="success">生成条形码</el-button>
           </el-form-item>
           <!-- 生成条形码 -->
 
           <!-- 商品名称 -->
-          <el-form-item label="商品名称:" prop="trade">
-            <el-input v-model="accountForm.trade"></el-input>
+          <el-form-item label="商品名称:" prop="name">
+            <el-input v-model="goods.name"></el-input>
           </el-form-item>
           <!-- 商品售价 -->
-          <el-form-item label="商品售价:" prop="price">
-            <el-input v-model="accountForm.price"></el-input>元
+          <el-form-item label="商品售价:">
+            <el-input v-model="price"></el-input>元
           </el-form-item>
           <!-- 市场价 -->
-          <el-form-item label="市场价:" prop="price">
-            <el-input v-model="accountForm.price"></el-input>元
+          <el-form-item label="市场价:" >
+            <el-input v-model="seleprice"></el-input>元
             <div>默认售价是市场价的1.2倍</div>
           </el-form-item>
           <!-- 商品进价 -->
-          <el-form-item label="商品进价:" prop="price">
-            <el-input v-model="accountForm.price"></el-input>元
+          <el-form-item label="商品进价:" prop="costprice">
+            <el-input v-model="costprice"></el-input>元
           </el-form-item>
           <!-- 入库数量 -->
-          <el-form-item label="入库数量:" prop="price">
-            <el-input v-model="accountForm.price"></el-input>
-            <div>计重商品单价为千克</div>
+          <el-form-item label="入库数量:" prop="awa">
+            <el-input v-model="goods.num"></el-input>
           </el-form-item>
           <!-- 商品重量 -->
-          <el-form-item label="商品重量:" prop="price">
-            <el-input v-model="accountForm.price"></el-input>
+          <el-form-item label="商品重量:" prop="weight">
+            <el-input v-model="goods.weight"></el-input>
+            <div>计重商品单价为千克</div>
+
           </el-form-item>
           <!-- 商品单位 -->
-          <el-form-item label="商品单位:" prop="price">
-            <el-input v-model="accountForm.price"></el-input>
+          <el-form-item label="商品单位:">
+            <el-input ></el-input>
           </el-form-item>
           <!-- 会员优惠 -->
           <el-form-item label="会员优惠" prop="member">
-            <el-radio-group v-model="accountForm.member">
+            <el-radio-group v-model="goods.member">
               <el-radio label="享受"></el-radio>
               <el-radio label="不享受"></el-radio>
             </el-radio-group>
           </el-form-item>
           <!-- 是否促销 -->
-          <el-form-item label="会员优惠" prop="resource">
-            <el-radio-group v-model="accountForm.resource">
+          <el-form-item label="会员优惠" prop="saled">
+            <el-radio-group v-model="goods.saled">
               <el-radio label="启用"></el-radio>
               <el-radio label="禁用"></el-radio>
             </el-radio-group>
           </el-form-item>
           <!-- 商品简介 -->
           <el-form-item label="商品简介">
-            <el-input style="width:600px" type="textarea" v-model="accountForm.desc"></el-input>
+            <el-input style="width:600px" type="textarea" v-model="goods.intro"></el-input>
             <div>不超过200个汉字</div>
           </el-form-item>
           <el-form-item>
@@ -89,31 +90,91 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
       //表单数据
-      accountForm: {
-        price: "",
-        trade: "",
-        bar: "",
-        region: "",
-        desc: "",
-        member: ""
-      },
+       goods:{
+        cate_id:'',//选择分类
+        code: "",
+        name: "",
+        // price: "",//售价
+        // saleprice: "",//市场价
+        num: 1,//入库数量
+        weight:1,//商品重量
+        saled:0,//促销
+        intro:'',//商品简介
+        member:'',
+        // saled:'',
+       },
+        costprice: 0,//进价
+
+    
       // 验证规则
       rules: {
-        price: [{ required: true, message: "请选择分类", trigger: "change" }],
-        trade: [{ required: true, message: "请选择分类", trigger: "change" }],
-        bar: [{ required: true, message: "请选择分类", trigger: "change" }],
-        region: [{ required: true, message: "请选择分类", trigger: "change" }]
+        price: [{ required: true, message: "请选择分类", trigger: "blur" }],
+        trade: [{ required: true, message: "请选择分类", trigger: "blur" }],
+        bar: [{ required: true, message: "请选择分类", trigger: "blur" }],
+        cate_id: [{ required: true, message: "请选择分类", trigger: "change" }]
       }
     };
   },
   methods: {
     // 添加 按钮
-    onSubmit() {}
-  }
+    onSubmit() {
+       this.$refs.goods.validate(valid => {
+         if (valid) {
+      // 获取所有的参数
+       let params = {
+            name: this.goods.name,
+            cate_id: this.goods.cate_id,
+            code: this.goods.code,
+            costprice: this.costprice,
+            price: this.price,
+            seleprice: this.seleprice,
+            num: this.goods.num,
+            weight: this.goods.weight,
+            saled: this.goods.saled,
+            intro: this.goods.intro,
+          };
+          // console.log(params);
+          
+          // 发送ajax请求 b把数据传给后端
+          this.request.post('/goodsadd/goodssaveadd',params)
+          .then(res=>{
+            // 获取后台发送的数据
+            let {code,reason}=res;
+            if(code===0){
+              this.$message({
+                message:reason,
+                type:'success'
+              });
+              // 路由跳转
+              this.$router.push("/home/GoodsManage")
+            }else{
+              this.$message.error('商品添加失败')
+            }
+
+          })
+          .catch(err=>{
+
+          })
+         }else{
+
+         }
+       })
+    }
+  },
+  // 计算属性
+  computed: {
+    price(){
+      return this.costprice*10;
+    },
+    seleprice(){
+      return this.price*1.2;
+    }
+  },
 };
 </script>
 

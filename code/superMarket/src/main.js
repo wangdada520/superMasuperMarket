@@ -16,10 +16,31 @@ import 'element-ui/lib/theme-chalk/index.css';//css组件
 import './assets/css/base.css'
 // 注册
 Vue.use(ElementUI);
+
+// 路由守卫
+router.beforeEach((to,from,next)=>{
+  // alert('路由守卫');
+  
+  // 获取token
+  const token = window.localStorage.getItem('wdd_token')
+  // 判断
+  if(token){
+    // 如果有token令牌直接放行
+    next()
+  }else{
+    // 如果去登录直接放行
+    if(to.path==='/login'){
+      next()
+    }else{
+        next({path:'/login'})
+    }
+  
+  }
+})
 //阻止生产提示
 Vue.config.productionTip = false
 
-new Vue({
-  router,
-  render: h => h(App)
-}).$mount('#app')
+new Vue({//创建vue 路由
+  router, //传入路由 才能使用路由相关的组件功能
+  render: h => h(App)//传入顶级app.vue渲染
+}).$mount('#app')//挂载dom
