@@ -74,8 +74,8 @@
           <!-- 是否促销 -->
           <el-form-item label="是否促销" prop="saled">
             <el-radio-group v-model="goods.saled">
-              <el-radio label="启用"></el-radio>
-              <el-radio label="禁用"></el-radio>
+              <el-radio label="促销"></el-radio>
+              <el-radio label="不促销"></el-radio>
             </el-radio-group>
           </el-form-item>
           <!-- 商品简介 -->
@@ -93,14 +93,16 @@
 </template>
 
 <script>
+// 引入封装的请求函数
+import {goodssaveAdd} from "@/api/goods";
 export default {
   data() {
     return {
       //表单数据
       goods: {
         cate_id: "", //选择分类
-        code: "",
-        name: "",
+        code: "",//商品条形码
+        name: "",//商品名字
         price: "", //售价
         saleprice: "", //市场价
         costprice: 0, //进价
@@ -155,7 +157,7 @@ export default {
           // console.log(params);
 
           // 发送ajax请求 b把数据传给后端
-          this.request.post("/goodsadd/goodssaveadd",params)
+         goodssaveAdd(params)
             .then(res => {
               // 获取后台发送的数据
               let { code, reason } = res;

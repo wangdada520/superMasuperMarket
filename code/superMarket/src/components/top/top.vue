@@ -40,7 +40,7 @@ export default {
     handleCommand(command){
       if(command==='loginout'){
         // 清除token
-        window.localStorage.removeItem('wdd_token')
+        local.remove('wdd_token')
         // 弹出提示信息
         this.$message({
           type:'success',

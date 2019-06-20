@@ -6,7 +6,8 @@ import router from './router'
 import request from './utils/request'
 // 挂载原型
 Vue.prototype.request = request;
-
+// 引入 local 文件
+import local from '@/utils/local'
 // 引入echarts文件 并挂载在Vue原型上
 import echarts from 'echarts';
 Vue.prototype.echarts=echarts;
@@ -22,7 +23,7 @@ router.beforeEach((to,from,next)=>{
   // alert('路由守卫');
   
   // 获取token
-  const token = window.localStorage.getItem('wdd_token')
+  const token =local.get('wdd_token')
   // 判断
   if(token){
     // 如果有token令牌直接放行

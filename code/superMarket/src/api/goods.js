@@ -14,3 +14,25 @@ export function goodssaveAdd(params) {
 export function goodsPage(params) {
     return request.get('/goodsadd/goodspage', params)
 }
+// 修改
+export function editaGoods(params){
+    return request.get('/goodsadd/editagoods',params)
+}
+// 保存修改
+export function saveEditGoods(params){
+    return request.post('/goodsadd/saveEditgoods',params)
+}
+
+// 批量删除
+export function batchdel(params){
+    return request.get('/goodsadd/batchdelgoods',params)
+}
+
+// 删除
+export function delagooda(params){
+    return request.get('/goodsadd/delagoods',params)
+}
+// 查询
+export function goodssearch(params){
+    return request.get('/goodsadd/search',params)
+}
