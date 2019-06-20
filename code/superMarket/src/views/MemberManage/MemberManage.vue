@@ -64,7 +64,7 @@
                     @current-change="handleCurrentChange"
                     :current-page="currentPage"
                     :page-sizes="[1, 3, 5, 8]"
-                    :page-size="1"
+                    :page-size="3"
                     layout="total, sizes, prev, pager, next, jumper"
                     :total="total">
                 </el-pagination>
@@ -164,6 +164,11 @@ export default {
       },
       //批量删除
       deldata(id){
+          if(!this.idArr.length){
+                // 弹错误提示
+                this.$message.error('请选择需要批量删除的用户！！')
+                return
+            }
           let params ={
             idArr:this.idArr
           }

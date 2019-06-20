@@ -142,9 +142,9 @@ router.post('/passwordmodify',(req,res)=>{
 	// 接收新密码
 	let {oldPassword}=req.body;
 	console.log(oldPassword)
+	console.log(req.user)
 	// 获取当前登录用户密码
 	let {password}=req.user;
-	// console.log(req.user)
 	// 判断
 	if(password===oldPassword){
 		res.send({code: 0, reason: '原密码输入正确'})

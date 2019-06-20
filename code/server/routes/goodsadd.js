@@ -25,11 +25,10 @@ router.post('/goodssaveadd', (req, res) => {
         num,
         weight,
         saled,
-        intro,
-        intime
+        intro
     } = req.body;
     //准备sql
-    let sqlStr = `insert into goods(name,code,cate_id,costprice,price,seleprice,num,weight,saled,intro,intime) values('${name}','${code}','${cate_id}','${costprice}','${price}','${seleprice}','${num}','${weight}','${saled}','${intro}','${intime}')`;
+    let sqlStr = `insert into goods(name,code,cate_id,costprice,price,seleprice,num,weight,saled,intro) values('${name}','${code}','${cate_id}','${costprice}','${price}','${seleprice}','${num}','${weight}','${saled}','${intro}')`;
     console.log(sqlStr);
     //    执行sql
     connection.query(sqlStr, (err, data) => {

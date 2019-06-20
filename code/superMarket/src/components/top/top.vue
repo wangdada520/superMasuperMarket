@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import local from '@/utils/local';
 export default {
   methods: {
     handleCommand(command){
