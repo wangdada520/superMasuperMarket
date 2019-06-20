@@ -11,6 +11,7 @@ var accountRouter = require('./routes/account');
 var ljloginRouter = require('./routes/ljlogin');
 var loginRouter = require('./routes/login');
 var goodsaddRouter = require('./routes/goodsadd');
+var memberRouter = require('./routes/member');
 
 var app = express();
 
@@ -31,6 +32,7 @@ app.use('/account', accountRouter);
 app.use('/ljlogin', ljloginRouter);
 app.use('/login', loginRouter);
 app.use('/goodsadd', goodsaddRouter);
+app.use('/member', memberRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
