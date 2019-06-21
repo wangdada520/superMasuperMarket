@@ -30,77 +30,95 @@
 export default {
   data() {
     return {
-      menus: [
-        // 商品管理
-        {
-          iconclass: "el-icon-s-goods",
-          title: "商品管理",
-          childer: [
-            { path: "/home/GoodsManage", subtitle: "商品管理" },
-            { path: "/home/GoodsAdd", subtitle: "添加商品" }
-            ]
-        },
-        // 进货管理
-        {
-          iconclass: "el-icon-truck",
-          title: "进货管理",
-          childer: [
-            { path: "/home/stockControl", subtitle: "库存管理" },
-            { path: "/home/AddInventory", subtitle: "添加库存" }
-            ]
-        },
-        // 出货管理
-        {
-          iconclass: "el-icon-sold-out",
-          title: "出货管理",
-          childer: [
-            { path: "/home/SalesList", subtitle: "销售列表" },
-            { path: "/home/Outbound", subtitle: "商品出库" },
-            { path: "/home/GoodsReturn", subtitle: "商品退货" },
-            ]
-        },
-         //  统计管理
-        {
-          iconclass: "el-icon-s-marketing",
-          title: "统计管理",
-          childer: [
-            { path: "/home/salesTotal", subtitle: "销售统计" },
-            { path: "/home/Stocktotal", subtitle: "进货统计" }
-          ]
-        },
-        // 账号管理
-        {
-          iconclass: "el-icon-s-custom",
-          title: "账号管理",
-          childer: [
-            { path: "/home/AccountManage", subtitle: "账号管理" },
-            { path: "/home/AccountAdd", subtitle: "添加账号" },
-            { path: "/home/passwordModify", subtitle: "密码修改" }
-          ]
-        },
-        // 会员管理
-        {
-          iconclass: "el-icon-user-solid",
-          title: "会员管理",
-          childer: [
-            { path: "/home/MemberManage", subtitle: "账号管理" },
-            { path: "/home/MemberAdd", subtitle: "添加账号" },
-            ]
-        },
-        // 系统管理
-        {
-          iconclass: "el-icon-s-management",
-          title: "系统管理",
-          childer: [
-            { path: "/home/SystemInfo", subtitle: "系统信息" },
-          
-            ]
-        },
-        
-        
-       
-      ]
+      menus: []
     };
+  },
+  created(){
+    this.request.get('/account/getrole')
+      .then(res => {
+        // 获取用户角色
+        let {role} = res;
+        // 定义导航数据
+        let nav = [
+          // 商品管理
+          {
+            iconclass: "el-icon-s-goods",
+            title: "商品管理",
+            role: ['管理员', '员工'],
+            childer: [
+              { path: "/home/GoodsManage", subtitle: "商品管理" },
+              { path: "/home/GoodsAdd", subtitle: "添加商品" }
+              ]
+          },
+          // 进货管理
+          {
+            iconclass: "el-icon-truck",
+            title: "进货管理",
+            role: ['管理员', '员工'],
+            childer: [
+              { path: "/home/stockControl", subtitle: "库存管理" },
+              { path: "/home/AddInventory", subtitle: "添加库存" }
+              ]
+          },
+          // 出货管理
+          {
+            iconclass: "el-icon-sold-out",
+            title: "出货管理",
+            role: ['管理员', '员工'],
+            childer: [
+              { path: "/home/SalesList", subtitle: "销售列表" },
+              { path: "/home/Outbound", subtitle: "商品出库" },
+              { path: "/home/GoodsReturn", subtitle: "商品退货" },
+              ]
+          },
+          //  统计管理
+          {
+            iconclass: "el-icon-s-marketing",
+            title: "统计管理",
+            role: ['管理员'],
+            childer: [
+              { path: "/home/salesTotal", subtitle: "销售统计" },
+              { path: "/home/Stocktotal", subtitle: "进货统计" }
+            ]
+          },
+          // 账号管理
+          {
+            iconclass: "el-icon-s-custom",
+            title: "账号管理",
+            role: ['管理员'],
+            childer: [
+              { path: "/home/AccountManage", subtitle: "账号管理" },
+              { path: "/home/AccountAdd", subtitle: "添加账号" },
+              { path: "/home/passwordModify", subtitle: "密码修改" }
+            ]
+          },
+          // 会员管理
+          {
+            iconclass: "el-icon-user-solid",
+            title: "会员管理",
+            role: ['管理员', '员工'],
+            childer: [
+              { path: "/home/MemberManage", subtitle: "账号管理" },
+              { path: "/home/MemberAdd", subtitle: "添加账号" },
+              ]
+          },
+          // 系统管理
+          {
+            iconclass: "el-icon-s-management",
+            title: "系统管理",
+            role: ['管理员', '员工'],
+            childer: [
+              { path: "/home/SystemInfo", subtitle: "系统信息" },
+            
+              ]
+          }
+        ];
+        // 过滤导航
+        this.menus = nav.filter(v => v.role.includes(role));
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 };
 </script>

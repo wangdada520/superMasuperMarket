@@ -47,12 +47,12 @@
 
           <!-- 商品条形码 -->
           <el-table
-            @selection-change="handleSelectionChange"
-            :data="tableData"
-            stripe
-            style="width: 100%"
-            ref="multipleTable"
-          >
+              @selection-change="handleSelectionChange"
+              :data="tableData"
+              stripe
+              style="width: 100%"
+              ref="multipleTable"
+            >
             <el-table-column type="selection"></el-table-column>
             <el-table-column prop="code" label="商品条形码"></el-table-column>
             <el-table-column prop="name" label="商品名称"></el-table-column>
@@ -182,27 +182,26 @@ export default {
   },
   methods: {
     // // 查询按钮
-     search(){
-        // 调用分页函数
+    search() {
+      // 调用分页函数
       this.goodstpage();
 
-    //   //提交数据给后端
-    //       let params = {
-    //         catename: this.serarchFrom.catename,
-    //         keyword: this.serarchFrom.keyword,
-    //       };
-    //       // 发送请求
-    //        goodssearch(params)
-    //        .then(res=>{
-    //          this.tableData=res;
+      //   //提交数据给后端
+      //       let params = {
+      //         catename: this.serarchFrom.catename,
+      //         keyword: this.serarchFrom.keyword,
+      //       };
+      //       // 发送请求
+      //        goodssearch(params)
+      //        .then(res=>{
+      //          this.tableData=res;
 
-    //        })
-    //        .catch(err=>{
-    //          console.log(err);
+      //        })
+      //        .catch(err=>{
+      //          console.log(err);
 
-    //        })
-
-     },
+      //        })
+    },
     // 按照分页请求数据
     goodstpage() {
       // 收集参数

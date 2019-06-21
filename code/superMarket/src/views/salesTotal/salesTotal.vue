@@ -23,16 +23,7 @@
           placeholder="2019-6-14"
           :picker-options="pickerOptions"
         ></el-date-picker>
-        <el-select style="width:150px;margin:0 5px;"  size="small" v-model="value" placeholder="销售统计情况">
-          <el-option
-           
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-        <el-button size="small" type="success">提交</el-button>
+        <el-button size="small" type="success" @click="getData">提交</el-button>
       </div>
       <div class="text item">
         <!-- 准备一个容器 -->
@@ -75,34 +66,17 @@ export default {
           }
         ]
       },
-       value1: "",
+      value1: "",
       value2: "",
-       options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
-        value: '',
-     
+      // x轴
+      xdata:["1月","2月","3月","4月","5月","6月"],
+      // 核心数据
+      seriesData:[5, 20, 40, 10, 10, 20]
     };
   },
   // 钩子函数
   mounted() {
-    // 基于准备好的dom，初始化echarts图表
-    var myChart = this.echarts.init(document.getElementById("box"));
-
-    var option = {
+    let option = {
       tooltip: {
         show: true
       },
@@ -112,20 +86,7 @@ export default {
       xAxis: [
         {
           type: "category",
-          data: [
-            "1月",
-            "2月",
-            "3月",
-            "4月",
-            "5月",
-            "6月",
-            "7月",
-            "8月",
-            "9月",
-            "10月",
-            "11月",
-            "12月"
-          ]
+          data: this.xdata
         }
       ],
       yAxis: [
@@ -136,13 +97,65 @@ export default {
       series: [
         {
           name: "销量",
-          type: "line",
-          data: [5, 20, 40, 10, 10, 20, 30, 40, 30, 10, 20, 39]
+          type: "bar",
+          data: this.seriesData
         }
       ]
-    };
-    //   使用配置生成报表
-    myChart.setOption(option);
+    }
+    this.drawCharts(option);
+  },
+  methods:{
+    // 重新加载数据
+    getData(){
+      this.request.get('/goodsadd/selldata')
+        .then(res => {
+          // 接受数据
+          let {category,value} = res;
+          // 渲染
+          this.xdata = category;
+          this.seriesData = value;
+
+          // 重新调用报表
+          var option = {
+            tooltip: {
+              show: true
+            },
+            legend: {
+              data: ["销量"]
+            },
+            xAxis: [
+              {
+                type: "category",
+                data: this.xdata
+              }
+            ],
+            yAxis: [
+              {
+                type: "value"
+              }
+            ],
+            series: [
+              {
+                name: "销量",
+                type: "line",
+                data: this.seriesData
+              }
+            ]
+          };
+
+          this.drawCharts(option);
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 生成报表的函数
+    drawCharts(option) {
+      // 基于准备好的dom，初始化echarts图表
+      var myChart = this.echarts.init(document.getElementById("box"));
+      //   使用配置生成报表
+      myChart.setOption(option);
+    }
   }
 };
 </script>

@@ -11,13 +11,13 @@
       <el-container>
         <!-- 右侧头部 -->
         <el-header>
-          <top></top>
+          <top ref="top"></top>
         </el-header>
 
         <!-- 右侧中间 -->
         <el-main>
           <!-- 路由出口 -->
-          <router-view/>
+          <router-view @sc="fn"></router-view>
         </el-main>
         <!-- 右侧页脚 -->
         <el-footer>
@@ -43,6 +43,11 @@ export default {
     leftNav,
     bottom,
     top
+  },
+  methods:{
+    fn(){
+      this.$refs.top.getaccount();
+    }
   }
 };
 </script>

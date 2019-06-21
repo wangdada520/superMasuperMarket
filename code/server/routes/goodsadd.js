@@ -6,6 +6,23 @@ var router = express.Router();
 // 引入数据库连接模块
 const connection = require('./js/conn')
 
+/*--- 验证token --- 开始 */ 
+const expressJwt = require('express-jwt');
+const secret = 'itsource';
+router.use(expressJwt ({
+    secret 
+}).unless({
+    path: ['/login/checklogin']  //除了这些地址，其他的URL都需要验证
+}));
+router.use(function (err, req, res, next) {
+    //当token验证失败时会抛出如下错误
+    if (err.name === 'UnauthorizedError') {   
+        //这个需要根据自己的业务逻辑来处理（ 具体的err值 请看下面）
+        res.status(401).send('invalid token...');
+    }
+})
+/*--- 验证token -- 结束 ---*/ 
+
 //统一设置响应头
 router.all('*', (req, res, next) => {
     //设置跨域
@@ -13,6 +30,8 @@ router.all('*', (req, res, next) => {
     res.setHeader("Access-Control-Allow-Headers", "authorization"); // 允许通过头部信息authorization 携带token
     next();
 })
+
+
 router.post('/goodssaveadd', (req, res) => {
     // 接收所有数据
     let {
@@ -220,5 +239,13 @@ router.get('/delagoods', (req, res) => {
 //     })
 
 // })
+
+router.get('/selldata', (req, res) => {
+	res.send({
+		category: ["7月","8月","9月","10月","11月","12月"],
+		value:  [500, 200, 400, 100, 100, 200]
+	})
+})
+
 
 module.exports = router;

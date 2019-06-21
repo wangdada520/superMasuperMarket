@@ -3,6 +3,23 @@ var router = express.Router();
 // 引入数据库连接模块
 const connection = require('./js/conn')
 
+/*--- 验证token --- 开始 */ 
+const expressJwt = require('express-jwt');
+const secret = 'itsource';
+router.use(expressJwt ({
+    secret 
+}).unless({
+    path: ['/login/checklogin']  //除了这些地址，其他的URL都需要验证
+}));
+router.use(function (err, req, res, next) {
+    //当token验证失败时会抛出如下错误
+    if (err.name === 'UnauthorizedError') {   
+        //这个需要根据自己的业务逻辑来处理（ 具体的err值 请看下面）
+        res.status(401).send('invalid token...');
+    }
+})
+/*--- 验证token -- 结束 ---*/ 
+
 //统一设置响应头
 router.all('*',(req,res,next) => {
 	//设置跨域
@@ -178,8 +195,10 @@ router.post('/savepassword',(req,res)=>{
 router.post('/accountadd',(req,res)=>{
 	// 接收数据
 	let {account,password,user_group} = req.body;
+	//默认头像
+	let avatarUrl = `/upload/avatar.jpg`;
 	// 准备sql
-	const sqlStr = `insert into account(account,password,user_group) values('${account}','${password}','${user_group}')`;
+	const sqlStr = `insert into account(account,password,user_group,avatarUrl) values('${account}','${password}','${user_group}','${avatarUrl}')`;
 	console.log(sqlStr);
 	// 执行sql
 	connection.query(sqlStr,(err,data) => {
@@ -195,7 +214,90 @@ router.post('/accountadd',(req,res)=>{
 	})
 })
 
+// 个人中心-获取用户数据
+router.get('/getaccountObj',(req,res) => {
+	let id = req.user.id;
+	//构造sql
+	const sqlStr = `select * from account where id=${id}`;
+	console.log(sqlStr);
+	// res.send('1');
+	//执行sql
+	connection.query(sqlStr,(err,data) => {
+		if (err) throw err;
+		res.send(data)
+	})
+})
 
+//顶部-获取账户名
+router.get('/getaccount',(req,res) => {
+	// 获取id
+	let id = req.user.id;
+
+	// 构造sql
+	const sqlStr = `select * from account where id=${id}`;
+	// console.log(sqlStr);
+	// 执行sql
+	connection.query(sqlStr, (err, data) => {
+		if (err) throw err;
+		res.send( data );
+	})
+})
+
+/* -----上传开始---- */ 
+// 引入node上传模块
+var multer = require('multer');
+
+// 配置存储路径 和 重命名
+var storage = multer.diskStorage({
+    // 图片上传到服务器以后 要放置的路径
+    destination: 'public/upload',
+
+    // 图片重命名
+    filename: function (req, file, cb) {
+        var fileFormat =(file.originalname).split(".");
+        // 获取时间戳
+        var filename = new Date().getTime();  
+        // 124354654 + "." + jpg
+        cb(null, filename + "." + fileFormat[fileFormat.length - 1]);
+    }
+});
+
+// 上传对象
+var upload = multer({
+    storage,
+});
+
+// 接收上传请求
+router.post('/uploadavatar', upload.single('file'), (req, res) => {
+    // 接收到的文件信息
+	var file = req.file;
+	console.log(file)
+
+	// 文件名
+	let fileName = file.filename;
+	// 拼接文件路径
+	let avatarUrl = '/upload/' + fileName
+
+	// 构造sql
+	const sqlStr = `update account set avatarUrl = '${avatarUrl}' where id=${req.user.id}`;
+	// 执行sql
+	connection.query(sqlStr, (err, data) => {
+		if (err) throw err;
+		if (data.affectedRows > 0) {
+			res.send({code: 0, reason: "上传成功", avatarUrl})
+		} else {
+			res.send({code: 1, reason: "上传失败"})
+		}
+	})
+})
+
+/* ----上传结束----- */ 
+
+
+// 获取用户角色
+router.get('/getrole',(req,res) => {
+	res.send({role: req.user.user_group});
+})
  
 module.exports = router;
 

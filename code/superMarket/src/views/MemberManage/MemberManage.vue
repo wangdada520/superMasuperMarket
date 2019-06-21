@@ -10,7 +10,7 @@
                     <el-form-item label="搜索" size="small" prop="user">
                         <el-input v-model="MemberManageForm.user"></el-input>
                     </el-form-item>
-                    <span class="text">会员卡，会员名，电话，手机</span>
+                    <span class="text">会员卡，会员名</span>
                     <el-form-item>
                         <el-button type="success" @click="onSubmit" size="small">查询</el-button>
                     </el-form-item>
@@ -25,10 +25,6 @@
                         <el-table-column
                             type="selection"
                             width="55">
-                        </el-table-column>
-                        <el-table-column
-                            prop="name"
-                            label="姓名">
                         </el-table-column>
                         <el-table-column
                             prop="name"
@@ -97,6 +93,7 @@ import {getmemberPage,batchdel,delOnedata,editmember,saveEditmember} from '@/api
 export default {
     data() {
       return {
+        //   查询
         MemberManageForm: {
           user: ''
         },
@@ -122,7 +119,7 @@ export default {
     },
     methods: {
       onSubmit() {
-        console.log('submit!');
+        this.getmemberPage();
       },
       // 每页显示条数  
       handleSizeChange(v){
@@ -139,7 +136,8 @@ export default {
         //   收集数据
         let params = {
             pageSize: this.pageSize,
-            currentPage: this.currentPage
+            currentPage: this.currentPage,
+            user:this.MemberManageForm.user
         }
         // 发送请求
         getmemberPage(params)
@@ -147,6 +145,13 @@ export default {
                 let {data,total} = res;
                 this.menberData = data;
                 this.total = total;
+                // 如果这一页已经没有数据了
+                if (!data.length && this.currentPage !== 1) {
+                    // 回到上一页
+                    this.currentPage -= 1;
+                    // 调用自己
+                    this.getmemberPage();
+                }
             })
             .catch(err => {
                 console.log(err)

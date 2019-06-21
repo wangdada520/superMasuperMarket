@@ -43,13 +43,16 @@ router.post('/memberadd', (req, res) => {
 // 分页
 router.get('/getmemberPage', (req, res) => {
     // 接收参数
-    let {pageSize,currentPage} = req.query;
+    let {pageSize,currentPage,user} = req.query;
     // 构造sql
-    let sqlStr = `select * from member order by id desc`;
+    let sqlStr = `select * from member where 1=1`;
     // console.log(sqlStr);
-    // 定义变量 保存数总条数
-    let total;
-
+	// 如果keyword为空 就查询所有名称和条形码
+	if (user !== '') {
+		sqlStr += ` and(name like '%${user}%' or card like '%${user}%')`
+	}
+	// 拼接排序
+	sqlStr += ` order by id desc`;
     // 执行sql
     connection.query(sqlStr, (err, data) => {
         if (err) throw err;

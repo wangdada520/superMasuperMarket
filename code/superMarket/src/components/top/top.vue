@@ -11,14 +11,14 @@
           <el-col :span="8">
             <!-- 头像 -->
             <div class="imghead">
-              <img src="./timg.jpg">
+              <img :src="avatarUrl">
             </div>
           </el-col>
           <el-col :span="16">
             <!-- 登录名 -->
             <el-dropdown @command="handleCommand">
               <span class="el-dropdown-link">
-                王大大
+                {{account}}
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
@@ -37,6 +37,12 @@
 <script>
 import local from '@/utils/local';
 export default {
+  data(){
+    return {
+      account:'',
+      avatarUrl: '' // 头像地址
+    }
+  },
   methods: {
     handleCommand(command){
       if(command==='loginout'){
@@ -52,11 +58,30 @@ export default {
           this.$router.push('/login')
         },500)
       }else if(command==='personal'){
-        
+        //跳转到个人中心页面
+          this.$router.push('/home/personal')
       }
 
+    },
+    // 获取账户名
+    getaccount(){
+      this.request.get('/account/getaccount')
+        .then(res => {
+          // console.log(res)
+          let { account, avatarUrl } = res[0];
+          this.account = account;
+          this.avatarUrl = 'http://127.0.0.1:999' + avatarUrl;
+          // console.log(this.avatarUrl)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   },
+  created(){
+    // 获取账户名
+    this.getaccount();
+  }
 };
 </script>
 

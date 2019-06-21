@@ -143,6 +143,11 @@ export default new Router({
           path: "/home/MemberManage", // 路径
           component: () => import("./views/MemberManage/MemberManage.vue"), //组件
         },
+        //个人中心
+        {
+          path: "/home/personal", // 路径
+          component: () => import("./views/personal/personal.vue"), //组件
+        },
       ]
     },
 
