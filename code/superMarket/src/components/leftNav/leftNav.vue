@@ -44,7 +44,7 @@ export default {
           {
             iconclass: "el-icon-s-goods",
             title: "商品管理",
-            role: ['管理员', '员工'],
+            role: ['高级用户', '普通用户'],
             childer: [
               { path: "/home/GoodsManage", subtitle: "商品管理" },
               { path: "/home/GoodsAdd", subtitle: "添加商品" }
@@ -54,7 +54,7 @@ export default {
           {
             iconclass: "el-icon-truck",
             title: "进货管理",
-            role: ['管理员', '员工'],
+            role: ['高级用户', '普通用户'],
             childer: [
               { path: "/home/stockControl", subtitle: "库存管理" },
               { path: "/home/AddInventory", subtitle: "添加库存" }
@@ -64,7 +64,7 @@ export default {
           {
             iconclass: "el-icon-sold-out",
             title: "出货管理",
-            role: ['管理员', '员工'],
+            role: ['高级用户', '普通用户'],
             childer: [
               { path: "/home/SalesList", subtitle: "销售列表" },
               { path: "/home/Outbound", subtitle: "商品出库" },
@@ -75,7 +75,7 @@ export default {
           {
             iconclass: "el-icon-s-marketing",
             title: "统计管理",
-            role: ['管理员'],
+            role: ['高级用户'],
             childer: [
               { path: "/home/salesTotal", subtitle: "销售统计" },
               { path: "/home/Stocktotal", subtitle: "进货统计" }
@@ -85,7 +85,7 @@ export default {
           {
             iconclass: "el-icon-s-custom",
             title: "账号管理",
-            role: ['管理员'],
+            role: ['高级用户'],
             childer: [
               { path: "/home/AccountManage", subtitle: "账号管理" },
               { path: "/home/AccountAdd", subtitle: "添加账号" },
@@ -96,7 +96,7 @@ export default {
           {
             iconclass: "el-icon-user-solid",
             title: "会员管理",
-            role: ['管理员', '员工'],
+            role: ['高级用户', '普通用户'],
             childer: [
               { path: "/home/MemberManage", subtitle: "账号管理" },
               { path: "/home/MemberAdd", subtitle: "添加账号" },
@@ -106,7 +106,7 @@ export default {
           {
             iconclass: "el-icon-s-management",
             title: "系统管理",
-            role: ['管理员', '员工'],
+            role: ['高级用户', '普通用户'],
             childer: [
               { path: "/home/SystemInfo", subtitle: "系统信息" },
             
